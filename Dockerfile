@@ -8,6 +8,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /usr/src/app
 
+COPY start.sh /start.sh
+
 EXPOSE 8080
 
 CMD ["/start.sh"]
