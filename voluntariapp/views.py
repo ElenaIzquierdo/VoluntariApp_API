@@ -40,7 +40,7 @@ class EventListView(generics.ListAPIView):
 
     def get(self, request):
         queryset = Event.objects.all()
-        serializer = EventGetSerializer(queryset, many=True, context={'request': request})
+        serializer = EventSerializer(queryset, many=True, context={'request': request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):

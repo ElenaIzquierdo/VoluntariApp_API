@@ -9,13 +9,12 @@ from django.utils import timezone
 class Event(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='event_creator',
                                 null=True)
-    name = models.CharField(blank=True, max_length=255)
-    type = models.CharField(blank=True, max_length=255)
+    title = models.CharField(blank=True, max_length=255)
+    group = models.TextField(null=False)
     created_date = models.DateField(auto_now_add=True)
     start_date = models.DateField(default=timezone.now)
     end_date = models.DateField(default=timezone.now)
     description = models.TextField(blank=True,null=True)
-    attendance = models.IntegerField(null=True)
 
     def publish(self):
         self.created_date = timezone.now()

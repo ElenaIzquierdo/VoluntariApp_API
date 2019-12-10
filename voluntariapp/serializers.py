@@ -9,9 +9,18 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('email','name','surname','password','project')
 
 class EventSerializer(serializers.ModelSerializer):
+    attending = serializers.SerializerMethodField()
+    attendance = serializers.SerializerMethodField()
+
+    def get_attending(self, obj):
+        attender = self.context.get('user')
+        return models.EventAttendee.objects.filter(event=obj, user=attender).exists()
+
+    def get_attendance(self, obj):
+        return models.EventAttendee.objects.filter(event=obj).count()
     class Meta:
         model = models.Event
-        fields = ('id','creator','name','type','start_date','end_date','description','attendance',)
+        fields = ('id','creator','title','group','start_date','end_date','description','attendance','attending')
 
 #FALTA ATTENDING!
 class EventGetSerializer(serializers.ModelSerializer):
