@@ -21,7 +21,7 @@ class Event(models.Model):
         self.save()
 
     def __str__(self):
-        return self.name
+        return self.title
 
 class EventAttendee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='eventattendee_user',
@@ -37,7 +37,7 @@ class ForumTheme(models.Model):
     created_date = models.DateField(default=timezone.now)
     finished = models.BooleanField(default=False)
     description = models.TextField(blank=True, null=True)
-    tasks = models.TextField(blank=True, null=True)
+    group = models.TextField(null=False)
 
     def publish(self):
         self.created_date = timezone.now()
@@ -54,8 +54,12 @@ class Comment(models.Model):
 
 class Rate(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    rate = models.IntegerField(blank=True,null=True)
-    description = models.TextField(blank=True, null=True)
+    circle_rate = models.IntegerField(blank=True,null=True)
+    snack_rate = models.IntegerField(blank=True,null=True)
+    respect_rate = models.IntegerField(blank=True,null=True)
+    line_rate = models.IntegerField(blank=True,null=True)
+    activity_rate = models.IntegerField(blank=True,null=True)
+    comments = models.TextField(blank=True, null=True)
 
 class CentreInteres(models.Model):
     objectius = models.TextField(blank=True, null=True)

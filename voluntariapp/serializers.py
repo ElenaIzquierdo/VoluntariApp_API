@@ -31,22 +31,38 @@ class EventGetSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Comment
-        fields = ("id", "content", "forumtheme",)
+        fields = ("id", "author","content","created_date")
 
 class ForumThemeGetSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+
+    def get_username(self, obj):
+        user = self.context.get('user')
+        return models.User.objects.filter(user=user).username
     class Meta:
         model = models.ForumTheme
-        fields = ("id","title","description","tasks","finished","created_date")
+        fields = ("id","title","username","description", "finished", "created_date", "group")
 
 class ForumThemeSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+
+    def get_username(self, obj):
+        user = self.context.get('user')
+        return models.User.objects.filter(user=user).username
     class Meta:
         model = models.ForumTheme
-        fields = ("id","title","description","tasks")
+        fields = ("id","title","username    ","description", "finished", "created_date", "group")
 
 class RateSerializer(serializers.ModelSerializer):
+    totalrate = serializers.SerializerMethodField()
+
+    def get_totalrate(self, obj):
+        totalrate = self.context.get('snack_rate')+self.context.get('line_rate')+self.context.get('circle_rate')+self.context.get('respect_rate')+self.context.get('activity_rate')
+        return totalrate/5
+
     class Meta:
         model = models.Rate
-        fields = ("id", "event", "rate","description")
+        fields = ("id", "event", "comments", "snack_rate", "line_rate", "circle_rate", "respect_rate", "activity_rate", "totalrate")
 
 class EventAttendeeSerializer(serializers.ModelSerializer):
     event_date = serializers.SerializerMethodField()
