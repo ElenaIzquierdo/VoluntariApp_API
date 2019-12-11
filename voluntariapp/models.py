@@ -6,9 +6,29 @@ from django.utils import timezone
 
 #Falta mes info del user: grup del casal per exemple
 
+class Cours(models.Model):
+    name = models.TextField(blank=False, null=False, unique=True)
+    year = models.IntegerField(blank=False, null=False, unique=True)
+
+class Quarter(models.Model):
+    name = models.TextField(blank=False, null=False, unique=True)
+    season = models.TextChoices('Season', 'HIVERN TARDOR PRIMAVERA')
+    cours = models.ForeignKey(Cours, on_delete=models.CASCADE, null=False, blank=False)
+
+#Gestionar tema dies i dates i tal
+class Setmana(models.Model):
+    name = models.TextField(blank=False, null=False)
+    quarter = models.ForeignKey(Quarter, on_delete=models.CASCADE, null=False, blank=False)
+    rate_avg = models.IntegerField(blank=True, null=True)
+    attendance_avg = models.IntegerField(blank=True, null=True)
+
+class CentreInteres(models.Model):
+    name = models.TextField(blank=False, null=False)
+
 class Event(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='event_creator',
                                 null=True)
+    setmana = models.ForeignKey(Setmana, on_delete=models.CASCADE)
     title = models.CharField(blank=True, max_length=255)
     group = models.TextField(null=False)
     created_date = models.DateField(auto_now_add=True)
@@ -64,7 +84,3 @@ class Rate(models.Model):
     comments = models.TextField(blank=True, null=True)
 
 
-class CentreInteres(models.Model):
-    objectius = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    state = models.TextField(blank=True, null=True)
