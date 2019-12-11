@@ -16,9 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+# ... the rest of your URLconf goes here ...
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'docs/', include_docs_urls(title='Polls API')),
     path('voluntariapp/', include('voluntariapp.urls'))
 ]
+
+urlpatterns += staticfiles_urlpatterns()
