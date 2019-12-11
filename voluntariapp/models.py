@@ -28,12 +28,11 @@ class CentreInteres(models.Model):
 class Event(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='event_creator',
                                 null=True)
-    setmana = models.ForeignKey(Setmana, on_delete=models.CASCADE)
     title = models.CharField(blank=True, max_length=255)
     group = models.TextField(null=False)
     created_date = models.DateField(auto_now_add=True)
-    start_date = models.DateField(default=timezone.now)
-    end_date = models.DateField(default=timezone.now)
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(default=timezone.now)
     description = models.TextField(blank=True,null=True)
 
     def publish(self):
@@ -56,7 +55,7 @@ class ForumTheme(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='forumtheme_creator',
                                 null=True)
     title = models.CharField(blank=True, max_length=255)
-    created_date = models.DateField(default=timezone.now)
+    created_date = models.DateTimeField(default=timezone.now)
     finished = models.BooleanField(default=False)
     description = models.TextField(blank=True, null=True)
     group = models.TextField(null=False)
