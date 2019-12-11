@@ -1,10 +1,11 @@
 # voluntariapp/views.py
+from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
 from .models import Event, Comment, ForumTheme, Rate, EventAttendee
 from .serializers import EventSerializer, UserSerializer, CommentSerializer, ForumThemeSerializer, RateSerializer, \
-    EventAttendeeSerializer, EventGetSerializer, ForumThemeGetSerializer
+    EventAttendeeSerializer, ForumThemeGetSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils import timezone
@@ -31,6 +32,16 @@ def login(request):
     token, _ = Token.objects.get_or_create(user=user)
     return Response({'token': token.key},
                     status=status.HTTP_200_OK)
+
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    parser_classes = (MultiPartParser, JSONParser,)
+    serializer_class = UserSerializer
+
+    def get(self, request):
+        queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True, context={'request': request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
 class EventListView(generics.ListAPIView):

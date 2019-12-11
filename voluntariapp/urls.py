@@ -6,6 +6,8 @@ from .views import login
 urlpatterns = [
     path('login',login),
 
+    path('users', views.UserListView.as_view()),
+
     path('event', views.EventListView.as_view()),
     path('event/<id_event>', views.EventDetailView.as_view(), name="event-details"),
 

@@ -27,7 +27,9 @@ class EventAttendee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='eventattendee_user',
                                 null=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    attending = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ['user', 'event']
 
 
 class ForumTheme(models.Model):
@@ -53,13 +55,14 @@ class Comment(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
 
 class Rate(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.OneToOneField(Event, on_delete=models.CASCADE, primary_key=True)
     circle_rate = models.IntegerField(blank=True,null=True)
     snack_rate = models.IntegerField(blank=True,null=True)
     respect_rate = models.IntegerField(blank=True,null=True)
     line_rate = models.IntegerField(blank=True,null=True)
     activity_rate = models.IntegerField(blank=True,null=True)
     comments = models.TextField(blank=True, null=True)
+
 
 class CentreInteres(models.Model):
     objectius = models.TextField(blank=True, null=True)
