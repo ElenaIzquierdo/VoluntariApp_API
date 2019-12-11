@@ -13,7 +13,9 @@ from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
+
+
 # Create your views here.
 
 @csrf_exempt
@@ -48,6 +50,7 @@ class EventListView(generics.ListAPIView):
     queryset = Event.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = EventSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         queryset = Event.objects.all()
@@ -71,6 +74,7 @@ class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = EventSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_event):
         a_event = get_object_or_404(Event, pk=id_event)
@@ -101,6 +105,7 @@ class ForumThemeListView(generics.ListAPIView):
     queryset = ForumTheme.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = ForumThemeSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         queryset = ForumTheme.objects.all()
@@ -149,6 +154,7 @@ class ForumThemeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ForumTheme.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = ForumThemeSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_forumtheme):
         a_theme = get_object_or_404(ForumTheme,pk=id_forumtheme)
@@ -181,12 +187,12 @@ class ListCommentView(generics.ListAPIView):
     queryset = Comment.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         queryset = Comment.objects.all()
         serializer = CommentSerializer(queryset, many=True, context={'request': request})
         return Response(data=serializer.data,status=status.HTTP_200_OK)
-
 
     def post(self, request):
         data = {"author": request.user.id, "created_date": timezone.now()}
@@ -202,6 +208,7 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     PUT comment/:id/
     DELETE comment/:id/
     """
+    permission_classes = [IsAuthenticated]
     queryset = Comment.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = CommentSerializer
@@ -236,6 +243,7 @@ class CommentFromThemeView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_forumtheme):
         comments = self.queryset.filter(forumtheme=id_forumtheme)
@@ -271,6 +279,7 @@ class RateDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Rate.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = RateSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request,id_rate):
         a_rate = get_object_or_404(Rate, pk=id_rate)
@@ -297,6 +306,7 @@ class RateFromEventView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Rate.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = RateSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_event):
         rates = self.queryset.filter(event=id_event)
@@ -308,6 +318,7 @@ class ListEventAttendeeView(generics.ListAPIView):
     queryset = EventAttendee.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = EventAttendeeSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         queryset = EventAttendee.objects.all()
@@ -318,6 +329,7 @@ class ListEventAttendeeView(generics.ListAPIView):
 class AttendeeView(generics.ListAPIView):
     queryset = EventAttendee.objects.all()
     serializer_class = EventAttendeeSerializer
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, id_event):
         a_event = get_object_or_404(Event, pk=id_event)
