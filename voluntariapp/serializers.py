@@ -39,14 +39,9 @@ class ForumThemeGetSerializer(serializers.ModelSerializer):
         fields = ("id","title","creator","description", "finished", "created_date", "group")
 
 class ForumThemeSerializer(serializers.ModelSerializer):
-    username = serializers.SerializerMethodField()
-
-    def get_username(self, obj):
-        user = self.context.get('author')
-        return models.User.objects.filter(user=user).username
     class Meta:
         model = models.ForumTheme
-        fields = ("id","title","username","description", "finished", "created_date", "group")
+        fields = ("id","title","creator","description", "finished", "created_date", "group")
 
 class RateSerializer(serializers.ModelSerializer):
     class Meta:
