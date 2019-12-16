@@ -57,3 +57,8 @@ class CoursSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Cours
         fields='__all__'
+
+class QuarterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Quarter
+        fields = '__all__'
