@@ -1,6 +1,6 @@
 # voluntariapp/urls.py
 from django.urls import path
-from voluntariapp.views_directory import user_views, event_views, forum_views, comment_views, rate_views, eventattendee_views
+from voluntariapp.views_directory import user_views, event_views, forum_views, comment_views, rate_views, eventattendee_views, cours_views
 from voluntariapp.views_directory.user_views import login
 
 urlpatterns = [
@@ -24,4 +24,7 @@ urlpatterns = [
 
     path('eventattendee', eventattendee_views.ListEventAttendeeView.as_view(), name="eventattendee-all"),
     path('event/<id_event>/attendee', eventattendee_views.AttendeeView.as_view(), name="eventattendee-detail"),
+
+    path('cours', cours_views.ListCoursView.as_view(), name="cours-all"),
+    path('cours/<id_cours>', cours_views.CoursDetailView.as_view(), name="cours-detail"),
 ]

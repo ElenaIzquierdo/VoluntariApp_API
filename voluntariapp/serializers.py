@@ -52,3 +52,8 @@ class EventAttendeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.EventAttendee
         fields = ("id", "user", "event")
+
+class CoursSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Cours
+        fields='__all__'
