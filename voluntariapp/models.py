@@ -16,7 +16,7 @@ class Quarter(models.Model):
     cours = models.ForeignKey(Cours, on_delete=models.CASCADE, null=False, blank=False)
 
 #Gestionar tema dies i dates i tal
-class Setmana(models.Model):
+class Week(models.Model):
     name = models.TextField(blank=False, null=False)
     quarter = models.ForeignKey(Quarter, on_delete=models.CASCADE, null=False, blank=False)
     rate_avg = models.IntegerField(blank=True, null=True)
