@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
 from voluntariapp.models import ForumTheme
-from voluntariapp.serializers import ForumThemeSerializer, ForumThemeGetSerializer
+from voluntariapp.serializers import ForumThemeGetSerializer, ForumThemeSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils import timezone
@@ -69,7 +69,7 @@ class ForumThemeDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def patch(self, request, id_forumtheme):
         a_theme = get_object_or_404(ForumTheme,pk=id_forumtheme)
-        serializer = ForumThemeSerializer(a_theme,data=request.data,partial=True)
+        serializer = ForumThemeSerializer(a_theme, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(status=status.HTTP_200_OK)
