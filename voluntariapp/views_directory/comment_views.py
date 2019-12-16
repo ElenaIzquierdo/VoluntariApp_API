@@ -7,6 +7,7 @@ from voluntariapp.serializers import CommentSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils import timezone
+from django.http import JsonResponse
 
 class ListCommentView(generics.ListAPIView):
     queryset = Comment.objects.all()
@@ -22,9 +23,10 @@ class ListCommentView(generics.ListAPIView):
         data = {"author": request.user.id, "created_date": timezone.now()}
         data.update(request.data)
         serializer = CommentSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -71,3 +73,4 @@ class CommentFromThemeView(generics.RetrieveUpdateDestroyAPIView):
         comments = self.queryset.filter(forumtheme=id_forumtheme)
         serializer = CommentSerializer(comments, many=True, context={'request': request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+
