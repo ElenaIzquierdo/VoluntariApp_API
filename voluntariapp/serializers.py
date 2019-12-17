@@ -67,3 +67,8 @@ class WeekSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Week
         fields = '__all__'
+
+class CentreInteresSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CentreInteres
+        fields = '__all__'

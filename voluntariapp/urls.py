@@ -1,7 +1,7 @@
 # voluntariapp/urls.py
 from django.urls import path
 from voluntariapp.views_directory import user_views, event_views, forum_views, comment_views, rate_views, \
-                                        eventattendee_views, cours_views, quarter_views, week_views
+                                        eventattendee_views, cours_views, quarter_views, week_views, centreinteres_views
 from voluntariapp.views_directory.user_views import login
 
 urlpatterns = [
@@ -36,4 +36,7 @@ urlpatterns = [
     path('week', week_views.ListWeekView.as_view(), name="week-all"),
     path('week/<id_week>', week_views.WeekDetailView.as_view(), name="week-detail"),
     path('week/quarter/<id_quarter>', week_views.WeekFromQuarterView.as_view(), name="week-from-quarter"),
+
+    path('centreinteres', centreinteres_views.ListCentreInteresView.as_view(), name="centreinteres-all"),
+    path('centreinteres/<id_centreinteres>', centreinteres_views.CentreInteresDetailView.as_view(), name="centreinteres-detail"),
 ]

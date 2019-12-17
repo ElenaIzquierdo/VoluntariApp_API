@@ -22,8 +22,8 @@ class Week(models.Model):
     rate_avg = models.IntegerField(blank=True, null=True)
     attendance_avg = models.IntegerField(blank=True, null=True)
 
-class CentreInteres(models.Model):
-    name = models.TextField(blank=False, null=False)
+
+
 
 class Event(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='event_creator',
@@ -81,5 +81,18 @@ class Rate(models.Model):
     line_rate = models.IntegerField(blank=True,null=True)
     activity_rate = models.IntegerField(blank=True,null=True)
     comments = models.TextField(blank=True, null=True)
+
+class CentreInteres(models.Model):
+    name = models.TextField(blank=False, null=False, unique=True)
+    cours = models.ForeignKey(Cours, on_delete=models.CASCADE, blank=False)
+
+class Objectius(models.Model):
+    description = models.TextField(blank=False, null=False)
+    centreinteres = models.ForeignKey(CentreInteres, on_delete=models.CASCADE, blank=False)
+
+class Explicacio(models.Model):
+    date = models.DateTimeField(null=True)
+    description = models.TextField(blank=False, null=False)
+    centreinteres = models.ForeignKey(CentreInteres, on_delete=models.CASCADE, blank=False)
 
 
