@@ -12,6 +12,8 @@ urlpatterns = [
 
     path('event', event_views.EventListView.as_view()),
     path('event/<id_event>', event_views.EventDetailView.as_view(), name="event-details"),
+    path('event-before', event_views.EventBeforeCurrentDateListView.as_view(), name="event-before-current-date"),
+    path('event-after', event_views.EventAfterCurrentDateListView.as_view(), name="event-after-current-date"),
 
     path('forum', forum_views.ForumThemeListView.as_view(), name="forum"),
     path('forum/<id_forumtheme>', forum_views.ForumThemeDetailView.as_view(), name="forumtheme-detail"),

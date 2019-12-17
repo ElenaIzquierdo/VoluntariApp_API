@@ -1,11 +1,8 @@
 # voluntariapp/serializers.py
-from datetime import datetime
 from django.utils import timezone
-
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from . import models
-import datetime
 import pytz
 
 utc=pytz.UTC
