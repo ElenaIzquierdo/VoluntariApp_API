@@ -72,3 +72,8 @@ class CentreInteresSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CentreInteres
         fields = '__all__'
+
+class ObjectiuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Objectiu
+        fields = '__all__'
