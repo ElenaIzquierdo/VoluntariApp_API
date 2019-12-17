@@ -77,3 +77,8 @@ class ObjectiuSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Objectiu
         fields = '__all__'
+
+class ExplicacioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Explicacio
+        fields = '__all__'
