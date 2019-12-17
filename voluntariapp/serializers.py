@@ -1,7 +1,14 @@
 # voluntariapp/serializers.py
+from datetime import datetime
+from django.utils import timezone
+
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from . import models
+import datetime
+import pytz
+
+utc=pytz.UTC
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -82,3 +89,17 @@ class ExplicacioSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Explicacio
         fields = '__all__'
+
+class ExplicacioGetFromCentreInteresSerializer(serializers.ModelSerializer):
+    finished = serializers.SerializerMethodField()
+
+    def get_finished(self, obj):
+        if obj.date == None:
+            return False
+        else:
+            now = timezone.now()
+            return obj.date < now
+
+    class Meta:
+        model = models.Explicacio
+        fields = ('id', 'date', 'description', 'centreinteres', 'finished')

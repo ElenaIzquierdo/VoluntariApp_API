@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
 from voluntariapp.models import Explicacio
-from voluntariapp.serializers import ExplicacioSerializer
+from voluntariapp.serializers import ExplicacioSerializer, ExplicacioGetFromCentreInteresSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils import timezone
@@ -56,9 +56,9 @@ class ExplicacioDetailView(generics.RetrieveUpdateDestroyAPIView):
 class ExplicacioFromCentreInteresView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Explicacio.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
-    serializer_class = ExplicacioSerializer
+    serializer_class = ExplicacioGetFromCentreInteresSerializer
 
     def get(self, request, id_centreinteres):
         explicacions = self.queryset.filter(centreinteres=id_centreinteres)
-        serializer = ExplicacioSerializer(explicacions, many=True, context={'request': request})
+        serializer = ExplicacioGetFromCentreInteresSerializer(explicacions, many=True, context={'request': request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
