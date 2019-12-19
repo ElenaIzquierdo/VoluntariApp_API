@@ -3,6 +3,7 @@ from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
 from voluntariapp.models import Objectiu
+from voluntariapp.paginations import FiveItems
 from voluntariapp.serializers import ObjectiuSerializer
 from rest_framework import status
 from rest_framework.response import Response
@@ -59,6 +60,13 @@ class ObjectiuFromCentreInteresView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ObjectiuSerializer
 
     def get(self, request, id_centreinteres):
-        objectius = self.queryset.filter(centreinteres=id_centreinteres)
-        serializer = ObjectiuSerializer(objectius, many=True, context={'request': request})
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        self.pagination_class = FiveItems
+        queryset = self.filter_queryset(self.queryset.filter(centreinteres=id_centreinteres))
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
