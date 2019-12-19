@@ -80,6 +80,7 @@ class EventAfterCurrentDateListView(generics.ListAPIView):
         serializer = EventSerializer(queryset, many=True, context={'request': request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
+
 class EventFromWeekView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
