@@ -28,7 +28,7 @@ class EventListView(generics.ListAPIView):
         serializer = EventSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -78,4 +78,14 @@ class EventAfterCurrentDateListView(generics.ListAPIView):
     def get(self, request):
         queryset = Event.objects.filter(start_date__gte=timezone.now())
         serializer = EventSerializer(queryset, many=True, context={'request': request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+class EventFromWeekView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Event.objects.all()
+    parser_classes = (MultiPartParser, JSONParser)
+    serializer_class = EventSerializer
+
+    def get(self, request, id_week):
+        events = self.queryset.filter(week=id_week)
+        serializer = EventSerializer(events, many=True, context={'request': request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)

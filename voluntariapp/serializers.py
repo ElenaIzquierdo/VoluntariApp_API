@@ -27,7 +27,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Event
-        fields = ('id', 'creator', 'title', 'group', 'start_date', 'end_date', 'description', 'attendance', 'attending')
+        fields = ('id', 'creator', 'title', 'group', 'start_date', 'end_date', 'description', 'attendance', 'attending', 'week')
 
 
 # FALTA ATTENDING!
