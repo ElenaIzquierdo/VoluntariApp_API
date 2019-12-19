@@ -3,6 +3,7 @@ from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
 from voluntariapp.models import Week
+from voluntariapp.paginations import SixItems
 from voluntariapp.serializers import WeekSerializer
 from rest_framework import status
 from rest_framework.response import Response
@@ -58,6 +59,12 @@ class WeekFromQuarterView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = WeekSerializer
 
     def get(self, request, id_quarter):
-        quarters = self.queryset.filter(quarter=id_quarter)
-        serializer = WeekSerializer(quarters, many=True, context={'request': request})
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        self.pagination_class = SixItems
+        queryset = self.filter_queryset(self.queryset.filter(quarter=id_quarter))
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+

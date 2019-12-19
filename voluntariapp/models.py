@@ -18,6 +18,8 @@ class Quarter(models.Model):
 #Gestionar tema dies i dates i tal
 class Week(models.Model):
     name = models.TextField(blank=False, null=False)
+    start_date = models.DateTimeField(null=False, blank=False)
+    end_date = models.DateTimeField(null=False, blank=False)
     quarter = models.ForeignKey(Quarter, on_delete=models.CASCADE, null=False, blank=False)
     rate_avg = models.IntegerField(blank=True, null=True)
     attendance_avg = models.IntegerField(blank=True, null=True)
