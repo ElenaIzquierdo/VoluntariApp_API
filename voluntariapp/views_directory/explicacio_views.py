@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
 from voluntariapp.models import Explicacio
-from voluntariapp.paginations import FiveItems
+from voluntariapp.paginations import FourItems
 from voluntariapp.serializers import ExplicacioSerializer, ExplicacioGetFromCentreInteresSerializer
 from rest_framework import status
 from rest_framework.response import Response
@@ -71,7 +71,7 @@ class ExplicacioFromCentreInteresView(generics.ListAPIView):
     serializer_class = ExplicacioGetFromCentreInteresSerializer
 
     def get(self, request, id_centreinteres):
-        self.pagination_class = FiveItems
+        self.pagination_class = FourItems
         queryset = self.filter_queryset(self.queryset.filter(centreinteres=id_centreinteres))
         page = self.paginate_queryset(queryset)
         if page is not None:
