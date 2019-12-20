@@ -7,11 +7,13 @@ from voluntariapp.serializers import ForumThemeGetSerializer, ForumThemeSerializ
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils import timezone
+from rest_framework.permissions import IsAuthenticated
 
 class ForumThemeListView(generics.ListAPIView):
     queryset = ForumTheme.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = ForumThemeSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         queryset = ForumTheme.objects.all()
