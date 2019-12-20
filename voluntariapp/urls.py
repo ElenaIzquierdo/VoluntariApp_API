@@ -48,8 +48,10 @@ urlpatterns = [
     path('objectiu', objectius_view.ListObjectiuView.as_view(), name="objectiu-all"),
     path('objectiu/<id_objectiu>', objectius_view.ObjectiuDetailView.as_view(), name="objectiu-detail"),
     path('objectiu/centreinteres/<id_centreinteres>', objectius_view.ObjectiuFromCentreInteresView.as_view(), name="objectiu-from-centreinteres"),
+    path('objectiu/centreinteres-no-pagination/<id_centreinteres>', objectius_view.ObjectiuFromCentreInteresWithoutPaginationView.as_view(), name="objectiu-from-centreinteres"),
 
     path('explicacio', explicacio_views.ListExplicacioView.as_view(), name="objectiu-all"),
     path('explicacio/<id_explicacio>', explicacio_views.ExplicacioDetailView.as_view(), name="objectiu-detail"),
     path('explicacio/centreinteres/<id_centreinteres>', explicacio_views.ExplicacioFromCentreInteresView.as_view(), name="objectiu-from-centreinteres"),
+    path('explicacio/centreinteres-no-pagination/<id_centreinteres>', explicacio_views.ExplicacioFromCentreInteresWithoutPaginationView.as_view(), name="objectiu-from-centreinteres"),
 ]

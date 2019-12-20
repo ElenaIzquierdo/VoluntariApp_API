@@ -69,4 +69,14 @@ class ObjectiuFromCentreInteresView(generics.RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+class ObjectiuFromCentreInteresWithoutPaginationView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Objectiu.objects.all()
+    parser_classes = (MultiPartParser, JSONParser)
+    serializer_class = ObjectiuSerializer
+
+    def get(self, request, id_centreinteres):
+        objectius = self.queryset.filter(centreinteres=id_centreinteres)
+        serializer = ObjectiuSerializer(objectius, many=True, context={'request': request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
 

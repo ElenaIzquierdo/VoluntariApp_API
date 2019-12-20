@@ -79,3 +79,13 @@ class ExplicacioFromCentreInteresView(generics.ListAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+class ExplicacioFromCentreInteresWithoutPaginationView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Explicacio.objects.all()
+    parser_classes = (MultiPartParser, JSONParser)
+    serializer_class = ExplicacioSerializer
+
+    def get(self, request, id_centreinteres):
+        explicacions = self.queryset.filter(centreinteres=id_centreinteres)
+        serializer = ExplicacioSerializer(explicacions, many=True, context={'request': request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
