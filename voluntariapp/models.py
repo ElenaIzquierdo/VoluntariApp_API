@@ -6,6 +6,12 @@ from django.utils import timezone
 
 #Falta mes info del user: grup del casal per exemple
 
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    mobile_phone = models.CharField(blank=True, max_length=9)
+    days = models.CharField(blank=False, max_length=5)
+
 class Cours(models.Model):
     name = models.TextField(blank=False, null=False, unique=True)
     year = models.IntegerField(blank=False, null=False, unique=True)

@@ -24,7 +24,8 @@ class UserListView(generics.ListAPIView):
         print(request.data['password'])
         password_encrypted = make_password(request.data['password'])
         print(password_encrypted)
-        data ={"username":request.data['username'],"password":password_encrypted}
+        data ={"password":password_encrypted}
+        data.update(request.data)
         serializer = UserSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()

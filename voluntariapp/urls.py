@@ -2,7 +2,7 @@
 from django.urls import path
 from voluntariapp.views_directory import user_views, event_views, forum_views, comment_views, rate_views, \
                                         eventattendee_views, cours_views, quarter_views, week_views, \
-                                        centreinteres_views, objectius_view, explicacio_views
+                                        centreinteres_views, objectius_view, explicacio_views, user_profile_views
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
 )
@@ -10,6 +10,9 @@ urlpatterns = [
 
     path('users', user_views.UserListView.as_view()),
     path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+
+    path('userprofile', user_profile_views.UserProfileListView.as_view(), name='profiles'),
+    path('userprofile/<id_user>', user_profile_views.UserProfileDetailView.as_view(), name='user_profile'),
 
     path('event', event_views.EventListView.as_view()),
     path('event/<id_event>', event_views.EventDetailView.as_view(), name="event-details"),

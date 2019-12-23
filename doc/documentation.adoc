@@ -1,0 +1,44 @@
+= Titol - TGG
+
+== Introduccion
+
+
+
+[plantuml]
+--
+title Login
+autonumber
+
+actor Anonimo
+control Api
+control Security
+entity Usuario
+database Neo4j
+
+Anonimo -> Api  : login username
+Api -> Usuario : findByUsername
+Usuario -> Neo4j : match n
+
+alt username registered
+
+Usuario --> Api: found
+Api -> Api: check password
+
+    alt successfull
+
+        Api -> Security: generate token
+        Security --> Api: token
+        Api --> Anonimo: token
+
+    else doesn't match
+
+        Api --> Anonimo: 403
+
+    end
+
+else username not registered
+
+Usuario --> Api: not found
+Api --> Anonimo: error 403
+
+end

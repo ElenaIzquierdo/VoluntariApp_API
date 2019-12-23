@@ -11,6 +11,11 @@ utc = pytz.UTC
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
+        fields = ('username','first_name','last_name','email','is_active','password')
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.UserProfile
         fields = '__all__'
 
 
