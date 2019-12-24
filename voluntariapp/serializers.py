@@ -32,6 +32,17 @@ class UserSerializer(serializers.ModelSerializer):
         models.UserProfile.objects.create(user=user, **profile_data)
         return user
 
+class EventAttendeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.EventAttendee
+        fields = ("id", "event","user")
+
+
+    def create(self, validated_data):
+        eventattendee = models.EventAttendee(**validated_data)
+        eventattendee.save()
+        return eventattendee
+
 
 class EventSerializer(serializers.ModelSerializer):
     attending = serializers.SerializerMethodField()
@@ -80,10 +91,7 @@ class RateSerializer(serializers.ModelSerializer):
         fields = ("event", "comments", "snack_rate", "line_rate", "circle_rate", "respect_rate", "activity_rate")
 
 
-class EventAttendeeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.EventAttendee
-        fields = ("id", "user", "event")
+
 
 
 class CoursSerializer(serializers.ModelSerializer):

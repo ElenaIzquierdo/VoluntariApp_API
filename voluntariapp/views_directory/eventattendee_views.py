@@ -6,31 +6,29 @@ from voluntariapp.models import Event, EventAttendee
 from voluntariapp.serializers import EventAttendeeSerializer
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+
 
 class ListEventAttendeeView(generics.ListAPIView):
     queryset = EventAttendee.objects.all()
-    parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = EventAttendeeSerializer
 
-    def get(self, request):
-        queryset = EventAttendee.objects.all()
-        serializer = EventAttendeeSerializer(queryset, many=True, context={'request': request})
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-
-class AttendeeView(generics.ListAPIView):
-    queryset = EventAttendee.objects.all()
-    serializer_class = EventAttendeeSerializer
+class AttendeeView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, id_event):
         a_event = get_object_or_404(Event, pk=id_event)
         EventAttendee.objects.create(user=request.user, event=a_event)
         return Response(status=status.HTTP_201_CREATED)
 
-    "UnAttend function"
 
-    def delete(self, request, id_event):
-        event = get_object_or_404(Event, pk=id_event)
-        a_attendee = self.queryset.get(event=event, user=request.user)
-        a_attendee.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+class UnattendView(generics.DestroyAPIView):
+    serializer_class = EventAttendeeSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        a_event = get_object_or_404(Event, pk=self.kwargs['pk'])
+        queryset = EventAttendee.objects.filter(event = a_event, user = self.request.user)
+        return queryset

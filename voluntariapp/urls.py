@@ -34,6 +34,7 @@ urlpatterns = [
 
     path('eventattendee', eventattendee_views.ListEventAttendeeView.as_view(), name="eventattendee-all"),
     path('event/<id_event>/attendee', eventattendee_views.AttendeeView.as_view(), name="eventattendee-detail"),
+    path('event/<int:pk>/unattend', eventattendee_views.UnattendView.as_view(), name="unattend"),
 
     path('cours', cours_views.ListCoursView.as_view(), name="cours-all"),
     path('cours/<id_cours>', cours_views.CoursDetailView.as_view(), name="cours-detail"),
