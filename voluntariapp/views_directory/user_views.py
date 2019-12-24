@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from voluntariapp.serializers import UserSerializer
 from rest_framework.views import APIView
+from rest_framework import status
 
 
 # Create your views here.
@@ -22,7 +23,6 @@ class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        print("USER", request.user.id)
         user = get_object_or_404(User, pk=request.user.id)
         data = UserSerializer(user).data
         return Response(data)
