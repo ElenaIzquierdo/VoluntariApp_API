@@ -1,4 +1,5 @@
 # voluntariapp/views_directory/user_views.py
+from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.parsers import MultiPartParser, JSONParser
 from voluntariapp.serializers import UserProfileSerializer

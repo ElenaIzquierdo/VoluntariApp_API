@@ -1,27 +1,29 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
-# Create your models here.
-
-#Falta mes info del user: grup del casal per exemple
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     mobile_phone = models.CharField(blank=True, max_length=9)
     days = models.CharField(blank=False, max_length=5)
+    group = models.CharField(blank=False, max_length=120, default='Petits')
+
 
 class Cours(models.Model):
     name = models.TextField(blank=False, null=False, unique=True)
     year = models.IntegerField(blank=False, null=False, unique=True)
+
 
 class Quarter(models.Model):
     name = models.TextField(blank=False, null=False, unique=True)
     season = models.TextChoices('Season', 'HIVERN TARDOR PRIMAVERA')
     cours = models.ForeignKey(Cours, on_delete=models.CASCADE, null=False, blank=False)
 
-#Gestionar tema dies i dates i tal
+
+# Gestionar tema dies i dates i tal
 class Week(models.Model):
     name = models.TextField(blank=False, null=False)
     start_date = models.DateTimeField(null=False, blank=False)
@@ -40,7 +42,7 @@ class Event(models.Model):
     created_date = models.DateField(auto_now_add=True)
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)
-    description = models.TextField(blank=True,null=True)
+    description = models.TextField(blank=True, null=True)
 
     def publish(self):
         self.created_date = timezone.now()
@@ -49,9 +51,10 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+
 class EventAttendee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='eventattendee_user',
-                                null=True)
+                             null=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
     class Meta:
@@ -74,32 +77,35 @@ class ForumTheme(models.Model):
     def __str__(self):
         return self.title
 
+
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     content = models.CharField(max_length=400)
     forumtheme = models.ForeignKey(ForumTheme, on_delete=models.CASCADE)
     created_date = models.DateTimeField(default=timezone.now)
 
+
 class Rate(models.Model):
     event = models.OneToOneField(Event, on_delete=models.CASCADE, primary_key=True)
-    circle_rate = models.IntegerField(blank=True,null=True)
-    snack_rate = models.IntegerField(blank=True,null=True)
-    respect_rate = models.IntegerField(blank=True,null=True)
-    line_rate = models.IntegerField(blank=True,null=True)
-    activity_rate = models.IntegerField(blank=True,null=True)
+    circle_rate = models.IntegerField(blank=True, null=True)
+    snack_rate = models.IntegerField(blank=True, null=True)
+    respect_rate = models.IntegerField(blank=True, null=True)
+    line_rate = models.IntegerField(blank=True, null=True)
+    activity_rate = models.IntegerField(blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
+
 
 class CentreInteres(models.Model):
     name = models.TextField(blank=False, null=False, unique=True)
     cours = models.ForeignKey(Cours, on_delete=models.CASCADE, blank=False)
 
+
 class Objectiu(models.Model):
     description = models.TextField(blank=False, null=False)
     centreinteres = models.ForeignKey(CentreInteres, on_delete=models.CASCADE, blank=False)
+
 
 class Explicacio(models.Model):
     date = models.DateTimeField(null=True)
     description = models.TextField(blank=False, null=False)
     centreinteres = models.ForeignKey(CentreInteres, on_delete=models.CASCADE, blank=False)
-
-

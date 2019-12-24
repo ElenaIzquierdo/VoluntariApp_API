@@ -47,7 +47,7 @@ class ObjectiuDetailView(generics.RetrieveUpdateDestroyAPIView):
         serializer = ObjectiuSerializer(a_objectiu, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, id_objectiu):
         a_objectiu = get_object_or_404(Objectiu, pk=id_objectiu)

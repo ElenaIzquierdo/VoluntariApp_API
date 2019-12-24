@@ -1,6 +1,5 @@
 # voluntariapp/serializers.py
 from django.utils import timezone
-from django.contrib.auth.models import User
 from rest_framework import serializers
 from . import models
 import pytz
@@ -8,16 +7,44 @@ import pytz
 utc = pytz.UTC
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('username','first_name','last_name','email','is_active','password')
-
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.UserProfile
-        fields = '__all__'
+        fields = ('mobile_phone','days','group')
 
+
+class UserSerializer(serializers.ModelSerializer):
+
+    email = serializers.CharField(source='username')
+    profile = UserProfileSerializer(required=True)
+
+    class Meta:
+        model = models.User
+        fields = ('first_name', 'last_name', 'password', 'profile', 'email')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        profile_data = validated_data.pop('profile')
+        password = validated_data.pop('password')
+        user = models.User(**validated_data)
+        user.set_password(password)
+        user.save()
+        models.UserProfile.objects.create(user=user, **profile_data)
+        return user
+
+    #def update(self, instance, validated_data):
+        #profile_data = validated_data.pop('profile')
+        #profile = instance.profile
+
+        #instance.email = validated_data.get('email', instance.email)
+        #instance.save()
+
+        #profile.title = profile_data.get('mobile_phone', profile.mobile_phone)
+        #profile.dob = profile_data.get('days', profile.days)
+        #profile.address = profile_data.get('group', profile.group)
+        #profile.save()
+
+        #return instance
 
 class EventSerializer(serializers.ModelSerializer):
     attending = serializers.SerializerMethodField()
