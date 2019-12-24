@@ -32,19 +32,6 @@ class UserSerializer(serializers.ModelSerializer):
         models.UserProfile.objects.create(user=user, **profile_data)
         return user
 
-    #def update(self, instance, validated_data):
-        #profile_data = validated_data.pop('profile')
-        #profile = instance.profile
-
-        #instance.email = validated_data.get('email', instance.email)
-        #instance.save()
-
-        #profile.title = profile_data.get('mobile_phone', profile.mobile_phone)
-        #profile.dob = profile_data.get('days', profile.days)
-        #profile.address = profile_data.get('group', profile.group)
-        #profile.save()
-
-        #return instance
 
 class EventSerializer(serializers.ModelSerializer):
     attending = serializers.SerializerMethodField()
