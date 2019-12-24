@@ -9,7 +9,7 @@ from rest_framework_simplejwt.views import (
 urlpatterns = [
 
     path('users', user_views.UserListView.as_view()),
-    path('users/<id>', user_views.UserDetailView.as_view()),
+    path('user', user_views.UserDetailView.as_view(), name='user_details'),
     path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 
     path('userprofile', user_profile_views.UserProfileListView.as_view(), name='profiles'),
