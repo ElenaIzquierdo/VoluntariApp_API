@@ -35,50 +35,23 @@ class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
         GET event/:id/
         PUT event/:id/
+        PATCH event/:id/
         DELETE event/:id/
         """
     queryset = Event.objects.all()
-    parser_classes = (MultiPartParser, JSONParser)
     serializer_class = EventSerializer
-
-    def get(self, request, id_event):
-        a_event = get_object_or_404(Event, pk=id_event)
-        serializer = EventSerializer(a_event)
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
-
-    def patch(self, request, id_event):
-        a_event = get_object_or_404(Event, pk=id_event)
-        serializer = EventSerializer(a_event, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(status=status.HTTP_200_OK)
-
-    def delete(self, request, id_event):
-        a_event = get_object_or_404(Event, pk=id_event)
-        a_event.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    lookup_field = 'id'
 
 
 class EventBeforeCurrentDateListView(generics.ListAPIView):
-    queryset = Event.objects.all()
-    parser_classes = (MultiPartParser, JSONParser,)
+    queryset = Event.objects.filter(start_date__lte=timezone.now())
     serializer_class = EventSerializer
 
-    def get(self, request):
-        queryset = Event.objects.filter(start_date__lte=timezone.now())
-        serializer = EventSerializer(queryset, many=True, context={'request': request})
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
 class EventAfterCurrentDateListView(generics.ListAPIView):
-    queryset = Event.objects.all()
-    parser_classes = (MultiPartParser, JSONParser,)
+    queryset = Event.objects.filter(start_date__gte=timezone.now())
     serializer_class = EventSerializer
-
-    def get(self, request):
-        queryset = Event.objects.filter(start_date__gte=timezone.now())
-        serializer = EventSerializer(queryset, many=True, context={'request': request})
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
 class EventFromWeekView(generics.RetrieveUpdateDestroyAPIView):
