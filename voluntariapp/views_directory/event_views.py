@@ -2,9 +2,10 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.views import APIView
 
 from voluntariapp.models import Event
-from voluntariapp.serializers import EventSerializer
+from voluntariapp.serializers import EventSerializer, EventPostSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils import timezone
@@ -22,10 +23,14 @@ class EventListView(generics.ListAPIView):
         serializer = EventSerializer(queryset, many=True, context={'request': request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
+
+class EventCreateView(APIView):
     def post(self, request):
+        print("request ", request.user.id)
         data = {"creator": request.user.id, "created_date": timezone.now()}
         data.update(request.data)
-        serializer = EventSerializer(data=data)
+        print("data ", data)
+        serializer = EventPostSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -46,7 +51,6 @@ class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
 class EventBeforeCurrentDateListView(generics.ListAPIView):
     queryset = Event.objects.filter(start_date__lte=timezone.now())
     serializer_class = EventSerializer
-
 
 
 class EventAfterCurrentDateListView(generics.ListAPIView):

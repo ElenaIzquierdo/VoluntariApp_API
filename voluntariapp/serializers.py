@@ -62,7 +62,7 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 # FALTA ATTENDING!
-class EventGetSerializer(serializers.ModelSerializer):
+class EventPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Event
         fields = '__all__'
