@@ -2,6 +2,8 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.permissions import IsAuthenticated
+
 from voluntariapp.models import CentreInteres
 from voluntariapp.serializers import CentreInteresSerializer
 from rest_framework import status
@@ -12,6 +14,7 @@ class ListCentreInteresView(generics.ListAPIView):
     queryset = CentreInteres.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = CentreInteresSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         queryset = CentreInteres.objects.all()
@@ -34,6 +37,7 @@ class CentreInteresDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CentreInteres.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = CentreInteresSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_centreinteres):
         a_centreinteres = get_object_or_404(CentreInteres,pk=id_centreinteres)

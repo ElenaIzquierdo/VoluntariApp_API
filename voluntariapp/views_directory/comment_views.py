@@ -2,6 +2,8 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.permissions import IsAuthenticated
+
 from voluntariapp.models import Comment
 from voluntariapp.serializers import CommentSerializer
 from rest_framework import status
@@ -13,6 +15,7 @@ class ListCommentView(generics.ListAPIView):
     queryset = Comment.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         queryset = Comment.objects.all()
@@ -37,6 +40,7 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_comment):
         a_comment = get_object_or_404(Comment,pk=id_comment)
@@ -68,6 +72,7 @@ class CommentFromThemeView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_forumtheme):
         comments = self.queryset.filter(forumtheme=id_forumtheme)

@@ -2,6 +2,8 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.permissions import IsAuthenticated
+
 from voluntariapp.models import Explicacio
 from voluntariapp.paginations import FourItems
 from voluntariapp.serializers import ExplicacioSerializer, ExplicacioGetFromCentreInteresSerializer
@@ -15,6 +17,7 @@ class ListExplicacioView(generics.ListAPIView):
     queryset = Explicacio.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = ExplicacioSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         queryset = Explicacio.objects.all()
@@ -46,6 +49,7 @@ class ExplicacioDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Explicacio.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = ExplicacioSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_explicacio):
         a_explicacio = get_object_or_404(Explicacio, pk=id_explicacio)
@@ -69,6 +73,7 @@ class ExplicacioFromCentreInteresView(generics.ListAPIView):
     queryset = Explicacio.objects.all().order_by('date')
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = ExplicacioGetFromCentreInteresSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_centreinteres):
         self.pagination_class = FourItems
@@ -80,10 +85,12 @@ class ExplicacioFromCentreInteresView(generics.ListAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+
 class ExplicacioFromCentreInteresWithoutPaginationView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Explicacio.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = ExplicacioSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_centreinteres):
         explicacions = self.queryset.filter(centreinteres=id_centreinteres)

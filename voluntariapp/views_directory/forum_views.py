@@ -68,6 +68,7 @@ class ForumThemeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ForumTheme.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = ForumThemeSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_forumtheme):
         a_theme = get_object_or_404(ForumTheme,pk=id_forumtheme)

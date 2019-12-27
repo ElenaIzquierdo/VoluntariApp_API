@@ -2,6 +2,8 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.permissions import IsAuthenticated
+
 from voluntariapp.models import Rate
 from voluntariapp.serializers import RateSerializer
 from rest_framework import status
@@ -11,6 +13,7 @@ class ListRateView(generics.ListAPIView):
     queryset = Rate.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = RateSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         queryset = Rate.objects.all()
@@ -34,6 +37,7 @@ class RateDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Rate.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = RateSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request,id_rate):
         a_rate = get_object_or_404(Rate, pk=id_rate)
@@ -60,6 +64,7 @@ class RateFromEventView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Rate.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = RateSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_event):
         rates = self.queryset.filter(event=id_event)

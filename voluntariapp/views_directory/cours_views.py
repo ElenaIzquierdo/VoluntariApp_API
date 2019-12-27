@@ -2,6 +2,8 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.permissions import IsAuthenticated
+
 from voluntariapp.models import Cours
 from voluntariapp.serializers import CoursSerializer
 from rest_framework import status
@@ -13,6 +15,7 @@ class ListCoursView(generics.ListAPIView):
     queryset = Cours.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = CoursSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         queryset = Cours.objects.all()
@@ -35,6 +38,7 @@ class CoursDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Cours.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = CoursSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_cours):
         a_cours = get_object_or_404(Cours,pk=id_cours)

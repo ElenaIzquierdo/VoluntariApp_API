@@ -2,6 +2,8 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.permissions import IsAuthenticated
+
 from voluntariapp.models import Week
 from voluntariapp.paginations import SixItems
 from voluntariapp.serializers import WeekSerializer
@@ -14,6 +16,7 @@ class ListWeekView(generics.ListAPIView):
     queryset = Week.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = WeekSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         queryset = Week.objects.all()
@@ -37,6 +40,7 @@ class WeekDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Week.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = WeekSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_week):
         a_quarter = get_object_or_404(Week, pk=id_week)
@@ -60,6 +64,7 @@ class WeekFromQuarterView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Week.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = WeekSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_quarter):
         self.pagination_class = SixItems
@@ -76,6 +81,7 @@ class WeekFromQuarterViewWithoutPagination(generics.RetrieveUpdateDestroyAPIView
     queryset = Week.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = WeekSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_quarter):
         weeks = self.queryset.filter(quarter=id_quarter)

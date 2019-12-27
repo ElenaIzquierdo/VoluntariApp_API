@@ -2,6 +2,8 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.permissions import IsAuthenticated
+
 from voluntariapp.models import Quarter
 from voluntariapp.serializers import QuarterSerializer
 from rest_framework import status
@@ -13,6 +15,7 @@ class ListQuarterView(generics.ListAPIView):
     queryset = Quarter.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
     serializer_class = QuarterSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         queryset = Quarter.objects.all()
@@ -35,6 +38,7 @@ class QuarterDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Quarter.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = QuarterSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_quarter):
         a_quarter = get_object_or_404(Quarter,pk=id_quarter)
@@ -57,6 +61,7 @@ class QuarterFromCoursView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Quarter.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = QuarterSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_cours):
         quarters = self.queryset.filter(cours=id_cours)

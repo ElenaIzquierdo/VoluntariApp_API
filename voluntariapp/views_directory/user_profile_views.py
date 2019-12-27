@@ -2,6 +2,8 @@
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.permissions import IsAuthenticated
+
 from voluntariapp.serializers import UserProfileSerializer
 from rest_framework import status
 from rest_framework.response import Response
@@ -38,6 +40,7 @@ class UserProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserProfile.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id_user):
         a_profile = get_object_or_404(UserProfile,pk=id_user)
