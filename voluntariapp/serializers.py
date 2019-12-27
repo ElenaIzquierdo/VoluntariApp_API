@@ -47,18 +47,21 @@ class EventAttendeeSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     attendance = serializers.SerializerMethodField()
     attending = serializers.SerializerMethodField()
+    finished = serializers.SerializerMethodField()
 
     def get_attendance(self, obj):
         return models.EventAttendee.objects.filter(event=obj).count()
 
 
     def get_attending(self, obj):
-        print(self.context['request'].user)
         return models.EventAttendee.objects.filter(event=obj, user=self.context['request'].user).exists()
+
+    def get_finished(self, obj):
+        return obj.start_date < timezone.now()
 
     class Meta:
         model = models.Event
-        fields = ('id', 'creator', 'title', 'group', 'start_date', 'end_date', 'description', 'attendance', 'week','attending')
+        fields = ('id', 'creator', 'title', 'group', 'start_date', 'end_date', 'description', 'attendance', 'week','attending', 'finished')
 
 
 # FALTA ATTENDING!
