@@ -3,11 +3,13 @@ from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
 from voluntariapp.models import ForumTheme
-from voluntariapp.serializers import ForumThemeGetSerializer, ForumThemeSerializer
+from voluntariapp.serializers import ForumThemeGetSerializer, ForumThemeSerializer,  ForumCreateTopicSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils import timezone
 from rest_framework.permissions import IsAuthenticated
+
+from rest_framework.views import APIView
 
 class ForumThemeListView(generics.ListAPIView):
     queryset = ForumTheme.objects.all()
@@ -44,10 +46,14 @@ class ForumThemeListView(generics.ListAPIView):
         serializer = ForumThemeGetSerializer(queryset, many=True, context={'request': request})
         return Response(data=serializer.data,status=status.HTTP_200_OK)
 
+
+class ForumTopicNewView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
-        data = {"creator": request.user.id, "created_date": timezone.now(), "finished": False}
+        data = {"creator": request.user.id, "created_date": timezone.now()}
         data.update(request.data)
-        serializer = ForumThemeSerializer(data=data)
+        serializer = ForumCreateTopicSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
