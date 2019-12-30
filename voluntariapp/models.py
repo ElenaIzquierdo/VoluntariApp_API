@@ -101,7 +101,7 @@ class CentreInteres(models.Model):
     cours = models.ForeignKey(Cours, on_delete=models.CASCADE, blank=False)
 
 
-class Objectiu(models.Model):
+class Goal(models.Model):
     description = models.TextField(blank=False, null=False)
     centreinteres = models.ForeignKey(CentreInteres, on_delete=models.CASCADE, blank=False)
 

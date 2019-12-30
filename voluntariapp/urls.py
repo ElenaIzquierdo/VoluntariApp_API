@@ -53,10 +53,10 @@ urlpatterns = [
     path('centreinteres', centreinteres_views.ListCentreInteresView.as_view(), name="centreinteres-all"),
     path('centreinteres/<id_centreinteres>', centreinteres_views.CentreInteresDetailView.as_view(), name="centreinteres-detail"),
 
-    path('objectiu', objectius_view.ListObjectiuView.as_view(), name="objectiu-all"),
-    path('objectiu/<id_objectiu>', objectius_view.ObjectiuDetailView.as_view(), name="objectiu-detail"),
-    path('objectiu/centreinteres/<id_centreinteres>', objectius_view.ObjectiuFromCentreInteresView.as_view(), name="objectiu-from-centreinteres"),
-    path('objectiu/centreinteres-no-pagination/<id_centreinteres>', objectius_view.ObjectiuFromCentreInteresWithoutPaginationView.as_view(), name="objectiu-from-centreinteres"),
+    path('goal', objectius_view.ListGoalView.as_view(), name="goal-all"),
+    path('goal/<id_goal>', objectius_view.GoalDetailView.as_view(), name="goal-detail"),
+    path('goal/centreinteres/<id_centreinteres>', objectius_view.GoalFromCentreInteresView.as_view(), name="goal-from-centreinteres"),
+    path('goal/centreinteres-no-pagination/<id_centreinteres>', objectius_view.GoalFromCentreInteresWithoutPaginationView.as_view(), name="goal-from-centreinteres-no-pagination"),
 
     path('explicacio', explicacio_views.ListExplicacioView.as_view(), name="objectiu-all"),
     path('explicacio/<id_explicacio>', explicacio_views.ExplicacioDetailView.as_view(), name="objectiu-detail"),

@@ -129,9 +129,9 @@ class CentreInteresSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ObjectiuSerializer(serializers.ModelSerializer):
+class GoalSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Objectiu
+        model = models.Goal
         fields = '__all__'
 
 
