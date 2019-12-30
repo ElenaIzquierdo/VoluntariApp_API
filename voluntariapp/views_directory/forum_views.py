@@ -2,8 +2,8 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
-from voluntariapp.models import ForumTheme
-from voluntariapp.serializers import ForumThemeGetSerializer, ForumThemeSerializer,  ForumCreateTopicSerializer
+from voluntariapp.models import ForumTopic
+from voluntariapp.serializers import ForumTopicGetSerializer, ForumTopicSerializer,  ForumCreateTopicSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils import timezone
@@ -12,13 +12,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 class ForumThemeListView(generics.ListAPIView):
-    queryset = ForumTheme.objects.all()
+    queryset = ForumTopic.objects.all()
     parser_classes = (MultiPartParser, JSONParser,)
-    serializer_class = ForumThemeSerializer
+    serializer_class = ForumTopicSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        queryset = ForumTheme.objects.all()
+        queryset = ForumTopic.objects.all()
         sort_param = self.request.query_params.get('sort', None)
         possible_param = ["title", "created_date", "-title", "-created_date"]
         if sort_param is not None:
@@ -43,7 +43,7 @@ class ForumThemeListView(generics.ListAPIView):
                 message = "The request is not valid."
                 explanation = "The parameter to filter status is not correct, possible values: open, closed"
                 return Response({'message': message, 'explanation': explanation}, status=status_code)
-        serializer = ForumThemeGetSerializer(queryset, many=True, context={'request': request})
+        serializer = ForumTopicGetSerializer(queryset, many=True, context={'request': request})
         return Response(data=serializer.data,status=status.HTTP_200_OK)
 
 
@@ -65,27 +65,27 @@ class ForumThemeDetailView(generics.RetrieveUpdateDestroyAPIView):
         PUT forumtheme/:id/
         DELETE forumtheme/:id/
         """
-    queryset = ForumTheme.objects.all()
+    queryset = ForumTopic.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
-    serializer_class = ForumThemeSerializer
+    serializer_class = ForumTopicSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, request, id_forumtheme):
-        a_theme = get_object_or_404(ForumTheme,pk=id_forumtheme)
-        serializer = ForumThemeSerializer(a_theme)
+        a_theme = get_object_or_404(ForumTopic, pk=id_forumtheme)
+        serializer = ForumTopicSerializer(a_theme)
         return Response(data=serializer.data,status=status.HTTP_200_OK)
 
 
     def patch(self, request, id_forumtheme):
-        a_theme = get_object_or_404(ForumTheme,pk=id_forumtheme)
-        serializer = ForumThemeSerializer(a_theme, data=request.data, partial=True)
+        a_theme = get_object_or_404(ForumTopic, pk=id_forumtheme)
+        serializer = ForumTopicSerializer(a_theme, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(status=status.HTTP_200_OK)
 
 
     def delete(self, request, id_forumtheme):
-        a_theme = get_object_or_404(ForumTheme,pk=id_forumtheme)
+        a_theme = get_object_or_404(ForumTopic, pk=id_forumtheme)
         if a_theme.creator == request.user:
             a_theme.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)

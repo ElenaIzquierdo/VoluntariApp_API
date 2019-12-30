@@ -78,21 +78,21 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ("id", "first_name", "content", "created_date", "forumtheme")
 
 
-class ForumThemeGetSerializer(serializers.ModelSerializer):
+class ForumTopicGetSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.ForumTheme
+        model = models.ForumTopic
         fields = ("id", "title", "creator", "description", "finished", "created_date", "group")
 
 
-class ForumThemeSerializer(serializers.ModelSerializer):
+class ForumTopicSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.ForumTheme
+        model = models.ForumTopic
         fields = ("id", "title", "creator", "description", "finished", "created_date", "group")
 
 
 class ForumCreateTopicSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.ForumTheme
+        model = models.ForumTopic
         fields = ("id", "title", "description", "finished", "group")
 
 

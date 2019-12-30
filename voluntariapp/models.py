@@ -62,7 +62,7 @@ class EventAttendee(models.Model):
         unique_together = ['user', 'event']
 
 
-class ForumTheme(models.Model):
+class ForumTopic(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='forumtheme_creator',
                                 null=True)
     title = models.CharField(blank=True, max_length=255)
@@ -82,7 +82,7 @@ class ForumTheme(models.Model):
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     content = models.CharField(max_length=400)
-    forumtheme = models.ForeignKey(ForumTheme, on_delete=models.CASCADE)
+    forumtheme = models.ForeignKey(ForumTopic, on_delete=models.CASCADE)
     created_date = models.DateTimeField(default=timezone.now)
 
 
