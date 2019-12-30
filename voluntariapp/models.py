@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     group = models.CharField(blank=False, max_length=120, default='Petits')
 
 
-class Cours(models.Model):
+class Course(models.Model):
     name = models.TextField(blank=False, null=False, unique=True)
     year = models.IntegerField(blank=False, null=False, unique=True)
 
@@ -20,7 +20,7 @@ class Cours(models.Model):
 class Quarter(models.Model):
     name = models.TextField(blank=False, null=False, unique=True)
     season = models.TextChoices('Season', 'HIVERN TARDOR PRIMAVERA')
-    cours = models.ForeignKey(Cours, on_delete=models.CASCADE, null=False, blank=False)
+    cours = models.ForeignKey(Course, on_delete=models.CASCADE, null=False, blank=False)
 
 
 # Gestionar tema dies i dates i tal
@@ -98,7 +98,7 @@ class Rate(models.Model):
 
 class CentreInteres(models.Model):
     name = models.TextField(blank=False, null=False, unique=True)
-    cours = models.ForeignKey(Cours, on_delete=models.CASCADE, blank=False)
+    cours = models.ForeignKey(Course, on_delete=models.CASCADE, blank=False)
 
 
 class Goal(models.Model):

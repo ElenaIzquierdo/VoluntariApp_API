@@ -38,12 +38,12 @@ urlpatterns = [
     path('event/<id_event>/attendee', eventattendee_views.AttendeeView.as_view(), name="eventattendee-detail"),
     path('event/<int:pk>/unattend', eventattendee_views.UnattendView.as_view(), name="unattend"),
 
-    path('cours', cours_views.ListCoursView.as_view(), name="cours-all"),
-    path('cours/<id_cours>', cours_views.CoursDetailView.as_view(), name="cours-detail"),
+    path('course', cours_views.ListCourseView.as_view(), name="course-all"),
+    path('course/<id_course>', cours_views.CourseDetailView.as_view(), name="course-detail"),
 
     path('quarter', quarter_views.ListQuarterView.as_view(), name="quarter-all"),
     path('quarter/<id_quarter>', quarter_views.QuarterDetailView.as_view(), name="quarter-detail"),
-    path('quarter/cours/<id_cours>', quarter_views.QuarterFromCoursView.as_view(), name="quarter-from-cours"),
+    path('quarter/course/<id_course>', quarter_views.QuarterFromCoursView.as_view(), name="quarter-from-cours"),
 
     path('week', week_views.ListWeekView.as_view(), name="week-all"),
     path('week/<id_week>', week_views.WeekDetailView.as_view(), name="week-detail"),

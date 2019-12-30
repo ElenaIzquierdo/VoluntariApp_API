@@ -63,7 +63,7 @@ class QuarterFromCoursView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = QuarterSerializer
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, id_cours):
-        quarters = self.queryset.filter(cours=id_cours)
+    def get(self, request, id_course):
+        quarters = self.queryset.filter(cours=id_course)
         serializer = QuarterSerializer(quarters, many=True, context={'request': request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)

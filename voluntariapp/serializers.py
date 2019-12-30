@@ -107,7 +107,7 @@ class RateSerializer(serializers.ModelSerializer):
 
 class CoursSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Cours
+        model = models.Course
         fields = '__all__'
 
 
