@@ -106,7 +106,7 @@ class Goal(models.Model):
     centreinteres = models.ForeignKey(CentreInteres, on_delete=models.CASCADE, blank=False)
 
 
-class Explicacio(models.Model):
+class Schedule(models.Model):
     date = models.DateTimeField(null=True)
     description = models.TextField(blank=False, null=False)
     centreinteres = models.ForeignKey(CentreInteres, on_delete=models.CASCADE, blank=False)

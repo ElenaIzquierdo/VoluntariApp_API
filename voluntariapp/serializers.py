@@ -135,13 +135,13 @@ class GoalSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ExplicacioSerializer(serializers.ModelSerializer):
+class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Explicacio
+        model = models.Schedule
         fields = '__all__'
 
 
-class ExplicacioGetFromCentreInteresSerializer(serializers.ModelSerializer):
+class ScheduleGetFromCentreInteresSerializer(serializers.ModelSerializer):
     finished = serializers.SerializerMethodField()
 
     def get_finished(self, obj):
@@ -152,5 +152,5 @@ class ExplicacioGetFromCentreInteresSerializer(serializers.ModelSerializer):
             return obj.date < now
 
     class Meta:
-        model = models.Explicacio
+        model = models.Schedule
         fields = ('id', 'date', 'description', 'centreinteres', 'finished')

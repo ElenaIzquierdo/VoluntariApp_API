@@ -58,8 +58,8 @@ urlpatterns = [
     path('goal/centreinteres/<id_centreinteres>', objectius_view.GoalFromCentreInteresView.as_view(), name="goal-from-centreinteres"),
     path('goal/centreinteres-no-pagination/<id_centreinteres>', objectius_view.GoalFromCentreInteresWithoutPaginationView.as_view(), name="goal-from-centreinteres-no-pagination"),
 
-    path('explicacio', explicacio_views.ListExplicacioView.as_view(), name="objectiu-all"),
-    path('explicacio/<id_explicacio>', explicacio_views.ExplicacioDetailView.as_view(), name="objectiu-detail"),
-    path('explicacio/centreinteres/<id_centreinteres>', explicacio_views.ExplicacioFromCentreInteresView.as_view(), name="objectiu-from-centreinteres"),
-    path('explicacio/centreinteres-no-pagination/<id_centreinteres>', explicacio_views.ExplicacioFromCentreInteresWithoutPaginationView.as_view(), name="objectiu-from-centreinteres"),
+    path('schedule', explicacio_views.ListScheduleView.as_view(), name="schedule-all"),
+    path('schedule/<id_schedule>', explicacio_views.ScheduleDetailView.as_view(), name="schedule-detail"),
+    path('schedule/centreinteres/<id_centreinteres>', explicacio_views.ScheduleFromCentreInteresView.as_view(), name="schedule-from-centreinteres"),
+    path('schedule/centreinteres-no-pagination/<id_centreinteres>', explicacio_views.ScheduleFromCentreInteresWithoutPaginationView.as_view(), name="schedule-from-centreinteres-no-pagination"),
 ]
