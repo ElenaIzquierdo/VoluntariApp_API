@@ -2,7 +2,7 @@
 from django.urls import path
 from voluntariapp.views_directory import user_views, event_views, forum_views, comment_views, rate_views, \
                                         eventattendee_views, cours_views, quarter_views, week_views, \
-                                        centreinteres_views, objectius_view, explicacio_views, user_profile_views
+                                        centreinteres_views, goals_views, schedule_views, user_profile_views
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
 )
@@ -53,13 +53,13 @@ urlpatterns = [
     path('centreinteres', centreinteres_views.ListCentreInteresView.as_view(), name="centreinteres-all"),
     path('centreinteres/<id_centreinteres>', centreinteres_views.CentreInteresDetailView.as_view(), name="centreinteres-detail"),
 
-    path('goal', objectius_view.ListGoalView.as_view(), name="goal-all"),
-    path('goal/<id_goal>', objectius_view.GoalDetailView.as_view(), name="goal-detail"),
-    path('goal/centreinteres/<id_centreinteres>', objectius_view.GoalFromCentreInteresView.as_view(), name="goal-from-centreinteres"),
-    path('goal/centreinteres-no-pagination/<id_centreinteres>', objectius_view.GoalFromCentreInteresWithoutPaginationView.as_view(), name="goal-from-centreinteres-no-pagination"),
+    path('goal', goals_views.ListGoalView.as_view(), name="goal-all"),
+    path('goal/<id_goal>', goals_views.GoalDetailView.as_view(), name="goal-detail"),
+    path('goal/centreinteres/<id_centreinteres>', goals_views.GoalFromCentreInteresView.as_view(), name="goal-from-centreinteres"),
+    path('goal/centreinteres-no-pagination/<id_centreinteres>', goals_views.GoalFromCentreInteresWithoutPaginationView.as_view(), name="goal-from-centreinteres-no-pagination"),
 
-    path('schedule', explicacio_views.ListScheduleView.as_view(), name="schedule-all"),
-    path('schedule/<id_schedule>', explicacio_views.ScheduleDetailView.as_view(), name="schedule-detail"),
-    path('schedule/centreinteres/<id_centreinteres>', explicacio_views.ScheduleFromCentreInteresView.as_view(), name="schedule-from-centreinteres"),
-    path('schedule/centreinteres-no-pagination/<id_centreinteres>', explicacio_views.ScheduleFromCentreInteresWithoutPaginationView.as_view(), name="schedule-from-centreinteres-no-pagination"),
+    path('schedule', schedule_views.ListScheduleView.as_view(), name="schedule-all"),
+    path('schedule/<id_schedule>', schedule_views.ScheduleDetailView.as_view(), name="schedule-detail"),
+    path('schedule/centreinteres/<id_centreinteres>', schedule_views.ScheduleFromCentreInteresView.as_view(), name="schedule-from-centreinteres"),
+    path('schedule/centreinteres-no-pagination/<id_centreinteres>', schedule_views.ScheduleFromCentreInteresWithoutPaginationView.as_view(), name="schedule-from-centreinteres-no-pagination"),
 ]
