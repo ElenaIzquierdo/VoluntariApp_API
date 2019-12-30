@@ -23,7 +23,6 @@ class Quarter(models.Model):
     cours = models.ForeignKey(Course, on_delete=models.CASCADE, null=False, blank=False)
 
 
-# Gestionar tema dies i dates i tal
 class Week(models.Model):
     name = models.TextField(blank=False, null=False)
     start_date = models.DateTimeField(null=False, blank=False)
