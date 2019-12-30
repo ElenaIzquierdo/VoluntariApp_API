@@ -58,7 +58,7 @@ class ObjectiuDetailView(generics.RetrieveUpdateDestroyAPIView):
         a_objectiu.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class ObjectiuFromCentreInteresView(generics.RetrieveUpdateDestroyAPIView):
+class ObjectiuFromCentreInteresView(generics.ListAPIView):
     queryset = Objectiu.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
     serializer_class = ObjectiuSerializer
