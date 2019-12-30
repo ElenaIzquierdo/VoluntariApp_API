@@ -35,8 +35,6 @@ class Week(models.Model):
 
 
 class Event(models.Model):
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='event_creator',
-                                null=True)
     week = models.ForeignKey(Week, on_delete=models.CASCADE, related_name='week_id')
     title = models.CharField(blank=True, max_length=255)
     group = models.TextField(null=False)
