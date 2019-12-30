@@ -5,7 +5,7 @@ from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.permissions import IsAuthenticated
 
 from voluntariapp.models import Comment
-from voluntariapp.serializers import CommentSerializer
+from voluntariapp.serializers import CommentSerializer, CommentPostSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils import timezone
@@ -23,9 +23,10 @@ class ListCommentView(generics.ListAPIView):
         return Response(data=serializer.data,status=status.HTTP_200_OK)
 
     def post(self, request):
+        print(request.user.id)
         data = {"author": request.user.id, "created_date": timezone.now()}
         data.update(request.data)
-        serializer = CommentSerializer(data=data)
+        serializer = CommentPostSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
@@ -38,34 +39,9 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     DELETE comment/:id/
     """
     queryset = Comment.objects.all()
-    parser_classes = (MultiPartParser, JSONParser)
     serializer_class = CommentSerializer
+    lookup_field = 'id'
     permission_classes = [IsAuthenticated]
-
-    def get(self, request, id_comment):
-        a_comment = get_object_or_404(Comment,pk=id_comment)
-        serializer = CommentSerializer(a_comment, context={'request': request})
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
-
-    def patch(self, request, id_comment):
-        a_comment = get_object_or_404(Comment, pk=id_comment)
-        serializer = CommentSerializer(a_comment, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(status=status.HTTP_200_OK)
-
-    def delete(self, request, id_comment):
-        a_comment = get_object_or_404(Comment,pk=id_comment)
-        if a_comment.author == request.user:
-            a_comment.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response(
-                data={
-                    "message": "You are not the original author of comment {}!".format(kwargs["pk"])
-                },
-                status=status.HTTP_403_FORBIDDEN
-            )
 
 
 class CommentFromThemeView(generics.RetrieveUpdateDestroyAPIView):

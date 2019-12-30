@@ -27,7 +27,7 @@ urlpatterns = [
     path('forum/<id_forumtheme>', forum_views.ForumThemeDetailView.as_view(), name="forumtheme-detail"),
 
     path('comment', comment_views.ListCommentView.as_view(), name="comments-all"),
-    path('comment/<id_comment>', comment_views.CommentDetailView.as_view(), name="comments-detail"),
+    path('comment/<int:id>', comment_views.CommentDetailView.as_view(), name="comments-detail"),
     path('comment/forum/<id_forumtheme>', comment_views.CommentFromThemeView.as_view(), name="comments-from-theme"),
 
     path('rate', rate_views.ListRateView.as_view(), name="rate-all"),

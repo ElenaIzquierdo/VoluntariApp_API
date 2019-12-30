@@ -72,10 +72,18 @@ class EventPostSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    first_name = serializers.CharField(source='author.first_name')
+    user = serializers.SerializerMethodField()
+
+    def get_user(self, obj):
+        return (obj.author.first_name + ' ' + obj.author.last_name)
     class Meta:
         model = models.Comment
-        fields = ("id", "first_name", "content", "created_date", "forumtheme")
+        fields = ("id", "user", "content", "created_date", "forumtheme")
+
+class CommentPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Comment
+        fields = ("id", "content", "created_date", "forumtheme", "author")
 
 
 class ForumTopicGetSerializer(serializers.ModelSerializer):
