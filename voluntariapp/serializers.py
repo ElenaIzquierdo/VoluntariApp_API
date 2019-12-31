@@ -44,6 +44,16 @@ class EventAttendeeSerializer(serializers.ModelSerializer):
         return eventattendee
 
 
+class AttendeesSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+
+    def get_username(self, obj):
+        return obj.user.first_name + ' ' + obj.user.last_name
+
+    class Meta:
+        model = models.EventAttendee
+        fields = ("id", "username")
+
 class EventSerializer(serializers.ModelSerializer):
     attendance = serializers.SerializerMethodField()
     attending = serializers.SerializerMethodField()

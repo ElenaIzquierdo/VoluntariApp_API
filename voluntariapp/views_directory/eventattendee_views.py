@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
 from voluntariapp.models import Event, EventAttendee
-from voluntariapp.serializers import EventAttendeeSerializer
+from voluntariapp.serializers import EventAttendeeSerializer, AttendeesSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -32,3 +32,13 @@ class UnattendView(generics.DestroyAPIView):
         a_event = get_object_or_404(Event, pk=self.kwargs['pk'])
         queryset = EventAttendee.objects.filter(event = a_event, user = self.request.user)
         return queryset
+
+
+class ListAttendeesView(APIView):
+    queryset = EventAttendee.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id_event):
+        attendees = self.queryset.filter(event=id_event)
+        serializer = AttendeesSerializer(attendees, many=True, context={'request': request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
