@@ -47,26 +47,9 @@ class ScheduleDetailView(generics.RetrieveUpdateDestroyAPIView):
     DELETE explicacio/:id/
     """
     queryset = Schedule.objects.all()
-    parser_classes = (MultiPartParser, JSONParser)
     serializer_class = ScheduleSerializer
+    lookup_field = 'id'
     permission_classes = [IsAuthenticated]
-
-    def get(self, request, id_schedule):
-        a_explicacio = get_object_or_404(Schedule, pk=id_schedule)
-        serializer = ScheduleSerializer(a_explicacio, context={'request': request})
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
-
-    def patch(self, request, id_schedule):
-        a_explicacio = get_object_or_404(Schedule, pk=id_schedule)
-        serializer = ScheduleSerializer(a_explicacio, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(status=status.HTTP_200_OK)
-
-    def delete(self, request, id_schedule):
-        a_explicacio = get_object_or_404(Schedule, pk=id_schedule)
-        a_explicacio.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ScheduleFromCentreInteresView(generics.ListAPIView):

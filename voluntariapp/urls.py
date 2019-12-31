@@ -58,7 +58,7 @@ urlpatterns = [
     path('goal/centreinteres-no-pagination/<id_centreinteres>', goals_views.GoalFromCentreInteresWithoutPaginationView.as_view(), name="goal-from-centreinteres-no-pagination"),
 
     path('schedule', schedule_views.ListScheduleView.as_view(), name="schedule-all"),
-    path('schedule/<id_schedule>', schedule_views.ScheduleDetailView.as_view(), name="schedule-detail"),
+    path('schedule/<int:id>', schedule_views.ScheduleDetailView.as_view(), name="schedule-detail"),
     path('schedule/centreinteres/<id_centreinteres>', schedule_views.ScheduleFromCentreInteresView.as_view(), name="schedule-from-centreinteres"),
     path('schedule/centreinteres-no-pagination/<id_centreinteres>', schedule_views.ScheduleFromCentreInteresWithoutPaginationView.as_view(), name="schedule-from-centreinteres-no-pagination"),
 ]
