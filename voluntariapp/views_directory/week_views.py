@@ -38,26 +38,9 @@ class WeekDetailView(generics.RetrieveUpdateDestroyAPIView):
     DELETE week/:id/
     """
     queryset = Week.objects.all()
-    parser_classes = (MultiPartParser, JSONParser)
     serializer_class = WeekSerializer
+    lookup_field = 'id'
     permission_classes = [IsAuthenticated]
-
-    def get(self, request, id_week):
-        a_quarter = get_object_or_404(Week, pk=id_week)
-        serializer = WeekSerializer(a_quarter, context={'request': request})
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
-
-    def patch(self, request, id_week):
-        a_quarter = get_object_or_404(Week, pk=id_week)
-        serializer = WeekSerializer(a_quarter, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(status=status.HTTP_200_OK)
-
-    def delete(self, request, id_week):
-        a_quarter = get_object_or_404(Week, pk=id_week)
-        a_quarter.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class WeekFromQuarterView(generics.RetrieveUpdateDestroyAPIView):

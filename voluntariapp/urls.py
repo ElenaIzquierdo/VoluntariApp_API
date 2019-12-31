@@ -45,7 +45,7 @@ urlpatterns = [
     path('quarter/course/<id_course>', quarter_views.QuarterFromCoursView.as_view(), name="quarter-from-cours"),
 
     path('week', week_views.ListWeekView.as_view(), name="week-all"),
-    path('week/<id_week>', week_views.WeekDetailView.as_view(), name="week-detail"),
+    path('week/<int:id>', week_views.WeekDetailView.as_view(), name="week-detail"),
     path('week/quarter/<id_quarter>', week_views.WeekFromQuarterView.as_view(), name="week-from-quarter"),
     path('week/quarter-no-pagination/<id_quarter>', week_views.WeekFromQuarterViewWithoutPagination.as_view(), name="week-from-quarter-without-pagination"),
 
