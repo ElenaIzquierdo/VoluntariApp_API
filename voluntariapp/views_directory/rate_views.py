@@ -35,27 +35,9 @@ class RateDetailView(generics.RetrieveUpdateDestroyAPIView):
     DELETE rate/:id/
     """
     queryset = Rate.objects.all()
-    parser_classes = (MultiPartParser, JSONParser)
     serializer_class = RateSerializer
+    lookup_field = 'id'
     permission_classes = [IsAuthenticated]
-
-    def get(self, request,id_rate):
-        a_rate = get_object_or_404(Rate, pk=id_rate)
-        serializer = RateSerializer(a_rate)
-        return Response(data=serializer.data,status=status.HTTP_200_OK)
-
-
-    def patch(self, request, id_rate):
-        a_rate = get_object_or_404(Rate, pk=id_rate)
-        serializer = RateSerializer(a_rate, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(status=status.HTTP_200_OK)
-
-    def delete(self, request, id_rate):
-        a_rate = get_object_or_404(pk=id_rate)
-        a_rate.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 

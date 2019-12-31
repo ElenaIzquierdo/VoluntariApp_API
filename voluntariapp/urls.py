@@ -30,7 +30,7 @@ urlpatterns = [
     path('comment/forum/<id_forumtheme>', comment_views.CommentFromThemeView.as_view(), name="comments-from-theme"),
 
     path('rate', rate_views.ListRateView.as_view(), name="rate-all"),
-    path('rate/<id_rate>', rate_views.RateDetailView.as_view(), name="rate-detail"),
+    path('rate/<int:id>', rate_views.RateDetailView.as_view(), name="rate-detail"),
     path('rate/event/<id_event>', rate_views.RateFromEventView.as_view(), name="rate-from-event"),
 
     path('eventattendee', eventattendee_views.ListEventAttendeeView.as_view(), name="eventattendee-all"),
