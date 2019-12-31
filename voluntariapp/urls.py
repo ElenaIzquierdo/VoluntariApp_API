@@ -53,7 +53,7 @@ urlpatterns = [
     path('centreinteres/<int:id>', centreinteres_views.CentreInteresDetailView.as_view(), name="centreinteres-detail"),
 
     path('goal', goals_views.ListGoalView.as_view(), name="goal-all"),
-    path('goal/<id_goal>', goals_views.GoalDetailView.as_view(), name="goal-detail"),
+    path('goal/<int:id>', goals_views.GoalDetailView.as_view(), name="goal-detail"),
     path('goal/centreinteres/<id_centreinteres>', goals_views.GoalFromCentreInteresView.as_view(), name="goal-from-centreinteres"),
     path('goal/centreinteres-no-pagination/<id_centreinteres>', goals_views.GoalFromCentreInteresWithoutPaginationView.as_view(), name="goal-from-centreinteres-no-pagination"),
 
