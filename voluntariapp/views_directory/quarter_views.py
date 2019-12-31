@@ -36,26 +36,9 @@ class QuarterDetailView(generics.RetrieveUpdateDestroyAPIView):
     DELETE quarter/:id/
     """
     queryset = Quarter.objects.all()
-    parser_classes = (MultiPartParser, JSONParser)
     serializer_class = QuarterSerializer
+    lookup_field = 'id'
     permission_classes = [IsAuthenticated]
-
-    def get(self, request, id_quarter):
-        a_quarter = get_object_or_404(Quarter,pk=id_quarter)
-        serializer = QuarterSerializer(a_quarter, context={'request': request})
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
-
-    def patch(self, request, id_quarter):
-        a_quarter = get_object_or_404(Quarter, pk=id_quarter)
-        serializer = QuarterSerializer(a_quarter, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(status=status.HTTP_200_OK)
-
-    def delete(self, request, id_quarter):
-        a_quarter = get_object_or_404(Quarter, pk=id_quarter)
-        a_quarter.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class QuarterFromCoursView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Quarter.objects.all()

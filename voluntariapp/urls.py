@@ -41,7 +41,7 @@ urlpatterns = [
     path('course/<int:id>', course_views.CourseDetailView.as_view(), name="course-detail"),
 
     path('quarter', quarter_views.ListQuarterView.as_view(), name="quarter-all"),
-    path('quarter/<id_quarter>', quarter_views.QuarterDetailView.as_view(), name="quarter-detail"),
+    path('quarter/<int:id>', quarter_views.QuarterDetailView.as_view(), name="quarter-detail"),
     path('quarter/course/<id_course>', quarter_views.QuarterFromCoursView.as_view(), name="quarter-from-cours"),
 
     path('week', week_views.ListWeekView.as_view(), name="week-all"),
