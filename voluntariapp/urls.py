@@ -1,7 +1,7 @@
 # voluntariapp/urls.py
 from django.urls import path
 from voluntariapp.views_directory import user_views, event_views, forum_views, comment_views, rate_views, \
-                                        eventattendee_views, cours_views, quarter_views, week_views, \
+                                        eventattendee_views, course_views, quarter_views, week_views, \
                                         centreinteres_views, goals_views, schedule_views, user_profile_views
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -37,8 +37,8 @@ urlpatterns = [
     path('event/<id_event>/attendee', eventattendee_views.AttendeeView.as_view(), name="eventattendee-detail"),
     path('event/<int:pk>/unattend', eventattendee_views.UnattendView.as_view(), name="unattend"),
 
-    path('course', cours_views.ListCourseView.as_view(), name="course-all"),
-    path('course/<id_course>', cours_views.CourseDetailView.as_view(), name="course-detail"),
+    path('course', course_views.ListCourseView.as_view(), name="course-all"),
+    path('course/<int:id>', course_views.CourseDetailView.as_view(), name="course-detail"),
 
     path('quarter', quarter_views.ListQuarterView.as_view(), name="quarter-all"),
     path('quarter/<id_quarter>', quarter_views.QuarterDetailView.as_view(), name="quarter-detail"),

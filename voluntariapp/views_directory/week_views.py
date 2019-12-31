@@ -1,4 +1,4 @@
-# voluntariapp/views_directory/cours_views.py
+# voluntariapp/views_directory/course_views.py
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser

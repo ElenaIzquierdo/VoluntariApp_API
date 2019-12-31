@@ -109,7 +109,7 @@ class RateSerializer(serializers.ModelSerializer):
         model = models.Rate
         fields = ("event", "comments", "snack_rate", "line_rate", "circle_rate", "respect_rate", "activity_rate")
 
-class CoursSerializer(serializers.ModelSerializer):
+class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Course
         fields = '__all__'
