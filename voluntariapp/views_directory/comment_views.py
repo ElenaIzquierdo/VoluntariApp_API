@@ -23,7 +23,6 @@ class ListCommentView(generics.ListAPIView):
         return Response(data=serializer.data,status=status.HTTP_200_OK)
 
     def post(self, request):
-        print(request.user.id)
         data = {"author": request.user.id, "created_date": timezone.now()}
         data.update(request.data)
         serializer = CommentPostSerializer(data=data)

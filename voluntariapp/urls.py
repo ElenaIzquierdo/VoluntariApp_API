@@ -23,8 +23,7 @@ urlpatterns = [
     path('event/week/<id_week>', event_views.EventFromWeekView.as_view(), name="event-from-week"),
 
     path('forum', forum_views.ForumThemeListView.as_view(), name="forum"),
-    path('forum/new', forum_views.ForumTopicNewView.as_view(), name="forum-new"),
-    path('forum/<id_forumtheme>', forum_views.ForumThemeDetailView.as_view(), name="forumtheme-detail"),
+    path('forum/<int:id>', forum_views.ForumThemeDetailView.as_view(), name="forumtheme-detail"),
 
     path('comment', comment_views.ListCommentView.as_view(), name="comments-all"),
     path('comment/<int:id>', comment_views.CommentDetailView.as_view(), name="comments-detail"),

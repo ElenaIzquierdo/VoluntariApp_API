@@ -3,13 +3,14 @@ from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
 from voluntariapp.models import ForumTopic
-from voluntariapp.serializers import ForumTopicGetSerializer, ForumTopicSerializer,  ForumCreateTopicSerializer
+from voluntariapp.serializers import ForumTopicGetSerializer, ForumTopicSerializer, ForumCreateTopicSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils import timezone
 from rest_framework.permissions import IsAuthenticated
 
 from rest_framework.views import APIView
+
 
 class ForumThemeListView(generics.ListAPIView):
     queryset = ForumTopic.objects.all()
@@ -44,7 +45,16 @@ class ForumThemeListView(generics.ListAPIView):
                 explanation = "The parameter to filter status is not correct, possible values: open, closed"
                 return Response({'message': message, 'explanation': explanation}, status=status_code)
         serializer = ForumTopicGetSerializer(queryset, many=True, context={'request': request})
-        return Response(data=serializer.data,status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        data = {"creator": request.user.id, "created_date": timezone.now()}
+        data.update(request.data)
+        serializer = ForumCreateTopicSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
+
 
 
 class ForumTopicNewView(APIView):
@@ -66,33 +76,6 @@ class ForumThemeDetailView(generics.RetrieveUpdateDestroyAPIView):
         DELETE forumtheme/:id/
         """
     queryset = ForumTopic.objects.all()
-    parser_classes = (MultiPartParser, JSONParser)
     serializer_class = ForumTopicSerializer
+    lookup_field = 'id'
     permission_classes = [IsAuthenticated]
-
-    def get(self, request, id_forumtheme):
-        a_theme = get_object_or_404(ForumTopic, pk=id_forumtheme)
-        serializer = ForumTopicSerializer(a_theme)
-        return Response(data=serializer.data,status=status.HTTP_200_OK)
-
-
-    def patch(self, request, id_forumtheme):
-        a_theme = get_object_or_404(ForumTopic, pk=id_forumtheme)
-        serializer = ForumTopicSerializer(a_theme, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(status=status.HTTP_200_OK)
-
-
-    def delete(self, request, id_forumtheme):
-        a_theme = get_object_or_404(ForumTopic, pk=id_forumtheme)
-        if a_theme.creator == request.user:
-            a_theme.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response(
-                data={
-                    "message": "You are not the original author of theme {}!".format(kwargs["pk"])
-                },
-                status=status.HTTP_403_FORBIDDEN
-            )
