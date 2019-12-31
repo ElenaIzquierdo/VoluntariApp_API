@@ -38,23 +38,6 @@ class UserProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     DELETE userprofile/:id/
     """
     queryset = UserProfile.objects.all()
-    parser_classes = (MultiPartParser, JSONParser)
     serializer_class = UserProfileSerializer
+    lookup_field = 'id'
     permission_classes = [IsAuthenticated]
-
-    def get(self, request, id_user):
-        a_profile = get_object_or_404(UserProfile,pk=id_user)
-        serializer = UserProfileSerializer(a_profile, context={'request': request})
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
-
-    def patch(self, request, id_user):
-        a_profile = get_object_or_404(UserProfile, pk=id_user)
-        serializer = UserProfileSerializer(a_profile, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(status=status.HTTP_200_OK)
-
-    def delete(self, request, id_user):
-        a_profile = get_object_or_404(UserProfile, pk=id_user)
-        a_profile.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)

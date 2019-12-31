@@ -13,7 +13,7 @@ urlpatterns = [
     path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 
     path('userprofile', user_profile_views.UserProfileListView.as_view(), name='profiles'),
-    path('userprofile/<id_user>', user_profile_views.UserProfileDetailView.as_view(), name='user_profile'),
+    path('userprofile/<int:id>', user_profile_views.UserProfileDetailView.as_view(), name='user_profile'),
 
     path('event', event_views.EventListView.as_view()),
     path('event/new', event_views.EventCreateView.as_view()),
