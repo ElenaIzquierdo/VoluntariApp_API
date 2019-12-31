@@ -19,7 +19,7 @@ class ForumThemeListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        queryset = ForumTopic.objects.all()
+        queryset = ForumTopic.objects.filter(group=request.user.profile.group)
         sort_param = self.request.query_params.get('sort', None)
         possible_param = ["title", "created_date", "-title", "-created_date"]
         if sort_param is not None:
