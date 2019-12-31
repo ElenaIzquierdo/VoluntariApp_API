@@ -35,23 +35,6 @@ class CentreInteresDetailView(generics.RetrieveUpdateDestroyAPIView):
     DELETE centreinteres/:id/
     """
     queryset = CentreInteres.objects.all()
-    parser_classes = (MultiPartParser, JSONParser)
     serializer_class = CentreInteresSerializer
+    lookup_field = 'id'
     permission_classes = [IsAuthenticated]
-
-    def get(self, request, id_centreinteres):
-        a_centreinteres = get_object_or_404(CentreInteres,pk=id_centreinteres)
-        serializer = CentreInteresSerializer(a_centreinteres, context={'request': request})
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
-
-    def patch(self, request, id_centreinteres):
-        a_centreinteres = get_object_or_404(CentreInteres, pk=id_centreinteres)
-        serializer = CentreInteresSerializer(a_centreinteres, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(status=status.HTTP_200_OK)
-
-    def delete(self, request, id_centreinteres):
-        a_centreinteres = get_object_or_404(CentreInteres, pk=id_centreinteres)
-        a_centreinteres.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)

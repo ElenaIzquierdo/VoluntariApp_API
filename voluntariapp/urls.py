@@ -50,7 +50,7 @@ urlpatterns = [
     path('week/quarter-no-pagination/<id_quarter>', week_views.WeekFromQuarterViewWithoutPagination.as_view(), name="week-from-quarter-without-pagination"),
 
     path('centreinteres', centreinteres_views.ListCentreInteresView.as_view(), name="centreinteres-all"),
-    path('centreinteres/<id_centreinteres>', centreinteres_views.CentreInteresDetailView.as_view(), name="centreinteres-detail"),
+    path('centreinteres/<int:id>', centreinteres_views.CentreInteresDetailView.as_view(), name="centreinteres-detail"),
 
     path('goal', goals_views.ListGoalView.as_view(), name="goal-all"),
     path('goal/<id_goal>', goals_views.GoalDetailView.as_view(), name="goal-detail"),
