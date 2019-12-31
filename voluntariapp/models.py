@@ -41,6 +41,7 @@ class Event(models.Model):
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)
     description = models.TextField(blank=True, null=True)
+    activity_file = models.FileField(blank=True, null=True)
 
     def publish(self):
         self.created_date = timezone.now()
