@@ -58,10 +58,19 @@ class EventSerializer(serializers.ModelSerializer):
     attendance = serializers.SerializerMethodField()
     attending = serializers.SerializerMethodField()
     finished = serializers.SerializerMethodField()
+    attenders = serializers.SerializerMethodField()
+    rate = serializers.SerializerMethodField()
 
     def get_attendance(self, obj):
         return models.EventAttendee.objects.filter(event=obj).count()
 
+    def get_attenders(self, obj):
+        attenders = models.EventAttendee.objects.filter(event=obj)
+        return AttendeesSerializer(attenders, many=True).data
+
+    def get_rate(self, obj):
+        rate = models.Rate.objects.get(event=obj)
+        return RateSerializer(rate).data
 
     def get_attending(self, obj):
         return models.EventAttendee.objects.filter(event=obj, user=self.context['request'].user).exists()
@@ -71,7 +80,8 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Event
-        fields = ('id', 'title', 'group', 'start_date', 'end_date', 'description', 'attendance', 'week','attending', 'finished')
+        fields = ('id', 'title', 'group', 'start_date', 'end_date', 'description', 'attendance', 'week','attending',
+                  'finished','attenders', 'rate')
 
 
 # FALTA ATTENDING!
