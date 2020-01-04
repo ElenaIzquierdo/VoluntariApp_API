@@ -35,7 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
 class EventAttendeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.EventAttendee
-        fields = ("id", "event", "user")
+        fields = ("id", "event", "user","attendance_control")
 
     def create(self, validated_data):
         eventattendee = models.EventAttendee(**validated_data)
@@ -51,7 +51,7 @@ class AttendeesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.EventAttendee
-        fields = ("id", "username")
+        fields = ("id", "username", "attendance_control")
 
 
 class EventSerializer(serializers.ModelSerializer):

@@ -55,6 +55,7 @@ class EventAttendee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='eventattendee_user',
                              null=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    attendance_control = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ['user', 'event']
