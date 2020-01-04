@@ -10,11 +10,10 @@ utc = pytz.UTC
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.UserProfile
-        fields = ('mobile_phone','days','group')
+        fields = ('mobile_phone', 'days', 'group')
 
 
 class UserSerializer(serializers.ModelSerializer):
-
     email = serializers.CharField(source='username')
     profile = UserProfileSerializer(required=True)
 
@@ -32,11 +31,11 @@ class UserSerializer(serializers.ModelSerializer):
         models.UserProfile.objects.create(user=user, **profile_data)
         return user
 
+
 class EventAttendeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.EventAttendee
-        fields = ("id", "event","user")
-
+        fields = ("id", "event", "user")
 
     def create(self, validated_data):
         eventattendee = models.EventAttendee(**validated_data)
@@ -54,6 +53,7 @@ class AttendeesSerializer(serializers.ModelSerializer):
         model = models.EventAttendee
         fields = ("id", "username")
 
+
 class EventSerializer(serializers.ModelSerializer):
     attendance = serializers.SerializerMethodField()
     attending = serializers.SerializerMethodField()
@@ -69,8 +69,12 @@ class EventSerializer(serializers.ModelSerializer):
         return AttendeesSerializer(attenders, many=True).data
 
     def get_rate(self, obj):
-        rate = models.Rate.objects.get(event=obj)
-        return RateSerializer(rate).data
+        try:
+            rate = models.Rate.objects.get(event=obj)
+            return RateSerializer(rate).data
+
+        except models.Rate.DoesNotExist:
+            return None
 
     def get_attending(self, obj):
         return models.EventAttendee.objects.filter(event=obj, user=self.context['request'].user).exists()
@@ -80,8 +84,8 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Event
-        fields = ('id', 'title', 'group', 'start_date', 'end_date', 'description', 'attendance', 'week','attending',
-                  'finished','attenders', 'rate')
+        fields = ('id', 'title', 'group', 'start_date', 'end_date', 'description', 'attendance', 'week', 'attending',
+                  'finished', 'attenders', 'rate')
 
 
 # FALTA ATTENDING!
@@ -96,9 +100,11 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def get_user(self, obj):
         return (obj.author.first_name + ' ' + obj.author.last_name)
+
     class Meta:
         model = models.Comment
         fields = ("id", "user", "content", "created_date", "forumtheme")
+
 
 class CommentPostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -128,6 +134,7 @@ class RateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Rate
         fields = ("event", "comments", "snack_rate", "line_rate", "circle_rate", "respect_rate", "activity_rate")
+
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
