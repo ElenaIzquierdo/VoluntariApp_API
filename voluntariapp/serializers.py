@@ -133,7 +133,7 @@ class ForumCreateTopicSerializer(serializers.ModelSerializer):
 class RateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Rate
-        fields = ("event", "comments", "snack_rate", "line_rate", "circle_rate", "respect_rate", "activity_rate")
+        fields = '__all__'
 
 
 class CourseSerializer(serializers.ModelSerializer):

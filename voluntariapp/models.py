@@ -86,7 +86,7 @@ class Comment(models.Model):
 
 
 class Rate(models.Model):
-    event = models.OneToOneField(Event, on_delete=models.CASCADE, primary_key=True)
+    event = models.OneToOneField(Event, on_delete=models.CASCADE)
     circle_rate = models.IntegerField(blank=True, null=True)
     snack_rate = models.IntegerField(blank=True, null=True)
     respect_rate = models.IntegerField(blank=True, null=True)

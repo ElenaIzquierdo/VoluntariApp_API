@@ -1,4 +1,5 @@
 # voluntariapp/views_directory/rate_views.py
+from django.http import JsonResponse
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
@@ -23,9 +24,10 @@ class ListRateView(generics.ListAPIView):
 
     def post(self, request):
         serializer = RateSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RateDetailView(generics.RetrieveUpdateDestroyAPIView):
