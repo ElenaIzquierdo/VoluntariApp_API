@@ -33,7 +33,7 @@ class UnattendView(generics.DestroyAPIView):
         queryset = EventAttendee.objects.filter(event = a_event, user = self.request.user)
         return queryset
 
-class EventAttendeeUpdateAttendance(generics.RetrieveUpdateAPIView):
+class EventAttendeeUpdateDestroyAttendance(generics.RetrieveUpdateDestroyAPIView):
     queryset = EventAttendee.objects.all()
     serializer_class = EventAttendeeSerializer
     lookup_field = 'id'
