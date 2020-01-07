@@ -5,7 +5,7 @@ from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.permissions import IsAuthenticated
 
 from voluntariapp.models import Comment
-from voluntariapp.serializers import CommentSerializer, CommentPostSerializer
+from voluntariapp.serializers import CommentSerializer, CommentPostSerializer, CommentListFromTopicSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils import timezone
@@ -46,11 +46,11 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
 class CommentFromThemeView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     parser_classes = (MultiPartParser, JSONParser)
-    serializer_class = CommentSerializer
+    serializer_class = CommentListFromTopicSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, request, id_forumtheme):
         comments = self.queryset.filter(forumtheme=id_forumtheme)
-        serializer = CommentSerializer(comments, many=True, context={'request': request})
+        serializer = CommentListFromTopicSerializer(comments, many=True, context={'request': request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 

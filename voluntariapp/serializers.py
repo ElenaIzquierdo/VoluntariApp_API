@@ -105,6 +105,20 @@ class CommentSerializer(serializers.ModelSerializer):
         model = models.Comment
         fields = ("id", "user", "content", "created_date", "forumtheme")
 
+class CommentListFromTopicSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+    owner = serializers.SerializerMethodField()
+
+    def get_user(self, obj):
+        return (obj.author.first_name + ' ' + obj.author.last_name)
+
+    def get_owner(self, obj):
+        return obj.author == self.context['request'].user
+
+    class Meta:
+        model = models.Comment
+        fields = ("id", "user", "content", "created_date", "forumtheme", "owner")
+
 
 class CommentPostSerializer(serializers.ModelSerializer):
     class Meta:
