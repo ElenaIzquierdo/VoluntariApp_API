@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from voluntariapp.models import Event
-from voluntariapp.serializers import EventSerializer, EventPostSerializer
+from voluntariapp.serializers import EventSerializer, EventPostSerializer, FileSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils import timezone
@@ -21,7 +21,7 @@ class EventListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        queryset = Event.objects.all()
+        queryset = Event.objects.filter(group=request.user.profile.group)
         serializer = EventSerializer(queryset, many=True, context={'request': request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -73,4 +73,12 @@ class EventFromWeekView(generics.RetrieveUpdateDestroyAPIView):
     def get(self, request, id_week):
         events = self.queryset.filter(week=id_week)
         serializer = EventSerializer(events, many=True, context={'request': request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+class FileFromEventView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, id_event):
+        a_event = get_object_or_404(Event, pk=id_event)
+        file = a_event.activity_file
+        serializer = FileSerializer(file)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
