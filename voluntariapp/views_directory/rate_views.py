@@ -23,7 +23,11 @@ class ListRateView(generics.ListAPIView):
 
 
     def post(self, request):
-        serializer = RateSerializer(data=request.data)
+        rate_total = request.data['snack_rate'] + request.data['line_rate'] + request.data['circle_rate'] + request.data['respect_rate'] + request.data['activity_rate']
+        rate_total = rate_total/2
+        data = {"total_rate": rate_total}
+        data.update(request.data)
+        serializer = RateSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)

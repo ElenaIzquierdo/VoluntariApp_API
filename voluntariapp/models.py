@@ -93,6 +93,7 @@ class Rate(models.Model):
     line_rate = models.IntegerField(blank=True, null=True)
     activity_rate = models.IntegerField(blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
+    total_rate = models.DecimalField(blank=True, null=True, decimal_places=1, max_digits=3)
 
 
 class CentreInteres(models.Model):
