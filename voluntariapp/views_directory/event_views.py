@@ -39,14 +39,6 @@ def createUserAttendsEventsWhenCreatingEvent(event):
             EventAttendee.objects.create(user=u, event=event)
 
 
-def createUserAttendsEventsWhenRegisterUser(user):
-    events = Event.objects.filter(group=user.profile.group)
-    for e in events:
-        weekday = e.start_date.weekday()
-        if user.profile.days[weekday] == 1:
-            EventAttendee.objects.create(user=user, event=e)
-
-
 class EventCreateView(APIView):
     permission_classes = [IsAuthenticated]
 

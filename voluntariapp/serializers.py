@@ -2,6 +2,7 @@
 from django.utils import timezone
 from rest_framework import serializers
 
+from voluntariapp.models import Event, EventAttendee
 from voluntariapp_api import settings
 from . import models
 import pytz
@@ -14,6 +15,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = models.UserProfile
         fields = ('mobile_phone', 'days', 'group')
 
+
+def createUserAttendsEventsWhenRegisterUser(user):
+    events = Event.objects.filter(group=user.profile.group)
+    for e in events:
+        weekday = e.start_date.weekday()
+        if user.profile.days[weekday] == '1':
+            EventAttendee.objects.create(user=user, event=e)
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.CharField(source='username')
@@ -31,6 +39,7 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         models.UserProfile.objects.create(user=user, **profile_data)
+        createUserAttendsEventsWhenRegisterUser(user)
         return user
 
 
