@@ -1,6 +1,8 @@
 # voluntariapp/serializers.py
 from django.utils import timezone
 from rest_framework import serializers
+
+from voluntariapp_api import settings
 from . import models
 import pytz
 
@@ -35,7 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
 class EventAttendeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.EventAttendee
-        fields = ("id", "event", "user","attendance_control")
+        fields = ("id", "event", "user", "attendance_control")
 
     def create(self, validated_data):
         eventattendee = models.EventAttendee(**validated_data)
@@ -60,6 +62,7 @@ class EventSerializer(serializers.ModelSerializer):
     finished = serializers.SerializerMethodField()
     attenders = serializers.SerializerMethodField()
     rate = serializers.SerializerMethodField()
+    file_url = serializers.SerializerMethodField('get_file_url')
 
     def get_attendance(self, obj):
         return models.EventAttendee.objects.filter(event=obj).count()
@@ -82,10 +85,13 @@ class EventSerializer(serializers.ModelSerializer):
     def get_finished(self, obj):
         return obj.start_date < timezone.now()
 
+    def get_file_url(self, obj):
+        return '%s%s' % (settings.MEDIA_URL, obj.activity_file)
+
     class Meta:
         model = models.Event
         fields = ('id', 'title', 'group', 'start_date', 'end_date', 'description', 'attendance', 'week', 'attending',
-                  'finished', 'attenders', 'rate')
+                  'finished', 'attenders', 'rate', 'activity_file','file_url')
 
 
 # FALTA ATTENDING!
@@ -93,6 +99,16 @@ class EventPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Event
         fields = '__all__'
+
+
+class FileSerializer(serializers.ModelSerializer):
+    file_url = serializers.SerializerMethodField('file_url')
+
+    def get_file_url(self, obj):
+        return self.context['request'].build_absolute_uri(obj.file_url)
+    class Meta:
+        model = models.Event
+        fields = ("activity_file",)
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -104,6 +120,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Comment
         fields = ("id", "user", "content", "created_date", "forumtheme")
+
 
 class CommentListFromTopicSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()

@@ -18,6 +18,7 @@ urlpatterns = [
     path('event', event_views.EventListView.as_view()),
     path('event/new', event_views.EventCreateView.as_view()),
     path('event/<int:id>', event_views.EventDetailView.as_view(), name="event-details"),
+    path('event/<id_event>/file', event_views.FileFromEventView.as_view(), name="file-details"),
     path('event-before', event_views.EventBeforeCurrentDateListView.as_view(), name="event-before-current-date"),
     path('event-after', event_views.EventAfterCurrentDateListView.as_view(), name="event-after-current-date"),
     path('event/week/<id_week>', event_views.EventFromWeekView.as_view(), name="event-from-week"),
