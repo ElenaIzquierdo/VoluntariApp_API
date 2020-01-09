@@ -97,7 +97,7 @@ class FileFromEventView(APIView):
         if os.path.exists(file_path):
             with open(file_path, 'rb') as file:
                 response = HttpResponse(file.read())
-                response['Content-Disposition'] = 'activity_file; filename=' + os.path.basename(file_path)
+                response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
                 return response
         raise Http404
 
