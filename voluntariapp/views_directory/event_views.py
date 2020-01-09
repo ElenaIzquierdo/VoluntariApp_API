@@ -104,7 +104,7 @@ class FileFromEventView(APIView):
     def put(self, request, id_event):
         event = get_object_or_404(Event, id=id_event)
         print(request.FILES['activity_file'])
-        serializer = EventSerializer(event, data={'activity_file': request.FILES['activity_file']}, partial=True)
+        serializer = EventSerializer(event, data={'activity_file': request.FILES.get('activity_file',None)}, partial=True)
         serializer.is_valid(raise_exception=True)
         event.activity_file.delete()
         serializer.save()
