@@ -180,7 +180,7 @@ class WeekSerializer(serializers.ModelSerializer):
     rate_percentage = serializers.SerializerMethodField()
 
     def get_rate_avg(self, obj):
-        events = Event.objects.all()
+        events = Event.objects.filter(week=obj)
         count = 0
         total = 0
         for e in events:
@@ -194,7 +194,7 @@ class WeekSerializer(serializers.ModelSerializer):
             return round(total/count)
 
     def get_rate_percentage(self, obj):
-        events_count = Event.objects.all().count()
+        events_count = Event.objects.filter(week=obj).count()
         rates_count = Rate.objects.all().count()
         if events_count == 0:
             return 0
