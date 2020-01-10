@@ -196,11 +196,11 @@ class WeekSerializer(serializers.ModelSerializer):
     def get_rate_percentage(self, obj):
         events_count = Event.objects.all().count()
         rates_count = Rate.objects.all().count()
-        if rates_count == 0:
-            total = rates_count/events_count
-            return round(total * 100)
-        else:
+        if events_count == 0:
             return 0
+        else:
+            total = rates_count / events_count
+            return round(total * 100)
 
     class Meta:
         model = models.Week
