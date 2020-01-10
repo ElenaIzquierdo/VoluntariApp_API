@@ -29,8 +29,6 @@ class Week(models.Model):
     end_date = models.DateTimeField(null=False, blank=False)
     quarter = models.ForeignKey(Quarter, on_delete=models.CASCADE, null=False, blank=False)
     description = models.TextField(blank=True, null=True)
-    rate_avg = models.IntegerField(blank=True, null=True)
-    attendance_avg = models.IntegerField(blank=True, null=True)
 
 
 class Event(models.Model):

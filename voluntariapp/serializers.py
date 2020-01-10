@@ -2,7 +2,7 @@
 from django.utils import timezone
 from rest_framework import serializers
 
-from voluntariapp.models import Event, EventAttendee
+from voluntariapp.models import Event, EventAttendee, Rate
 from voluntariapp_api import settings
 from . import models
 import pytz
@@ -176,9 +176,29 @@ class QuarterSerializer(serializers.ModelSerializer):
 
 
 class WeekSerializer(serializers.ModelSerializer):
+    rate_avg = serializers.SerializerMethodField()
+    rate_percentage = serializers.SerializerMethodField()
+
+    def get_rate_avg(self, obj):
+        events = Event.objects.all()
+        count = 0
+        total = 0
+        for e in events:
+            if Rate.objects.filter(event=e).exists():
+                rate = Rate.objects.get(event=e).total_rate
+                total += rate
+                count += 1
+        return round(total/count)
+
+    def get_rate_percentage(self, obj):
+        events_count = Event.objects.all().count()
+        rates_count = Rate.objects.all().count()
+        total = rates_count/events_count
+        return round(total * 100)
+
     class Meta:
         model = models.Week
-        fields = '__all__'
+        fields = ("id", "name", "start_date", "end_date", "description", "quarter", "rate_avg", "rate_percentage")
 
 
 class CentreInteresSerializer(serializers.ModelSerializer):
