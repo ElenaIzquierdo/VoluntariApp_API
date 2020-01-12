@@ -17,7 +17,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 def createUserAttendsEventsWhenRegisterUser(user):
-    events = Event.objects.filter(group=user.profile.group)
+    events = Event.objects.filter(group=user.profile.group, start_date__gte=timezone.now())
     for e in events:
         weekday = e.start_date.weekday()
         if user.profile.days[weekday] == '1':
