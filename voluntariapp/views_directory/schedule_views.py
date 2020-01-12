@@ -5,7 +5,7 @@ from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.permissions import IsAuthenticated
 
 from voluntariapp.models import Schedule
-from voluntariapp.paginations import FourItems
+from voluntariapp.paginations import ThreeItems
 from voluntariapp.serializers import ScheduleSerializer, ScheduleGetFromCentreInteresSerializer
 from rest_framework import status
 from rest_framework.response import Response
@@ -59,7 +59,7 @@ class ScheduleFromCentreInteresView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, id_centreinteres):
-        self.pagination_class = FourItems
+        self.pagination_class = ThreeItems
         queryset = self.filter_queryset(self.queryset.filter(centreinteres=id_centreinteres))
         page = self.paginate_queryset(queryset)
         if page is not None:

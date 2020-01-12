@@ -17,8 +17,8 @@ class SixItems(pagination.PageNumberPagination):
              ('results', data)
          ]))
 
-class FourItems(pagination.PageNumberPagination):
-    page_size = 4
+class ThreeItems(pagination.PageNumberPagination):
+    page_size = 3
 
     def get_paginated_response(self, data):
         return Response(OrderedDict([
