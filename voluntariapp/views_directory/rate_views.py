@@ -24,7 +24,7 @@ class ListRateView(generics.ListAPIView):
 
     def post(self, request):
         rate_total = request.data['snack_rate'] + request.data['line_rate'] + request.data['circle_rate'] + request.data['respect_rate'] + request.data['activity_rate']
-        rate_total = rate_total/2
+        rate_total = round(rate_total/2)
         data = {"total_rate": rate_total}
         data.update(request.data)
         serializer = RateSerializer(data=data)
